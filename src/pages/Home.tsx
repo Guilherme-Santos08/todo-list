@@ -1,6 +1,11 @@
-export function Home() {
+import { Main } from "../components/Main";
+import { Header } from "../components/Header";
 
+export function Home() {
   return (
-    <h1>Hello, sou o Home</h1>
-  )
+    <>
+      <Header />
+      <Main />
+    </>
+  );
 }

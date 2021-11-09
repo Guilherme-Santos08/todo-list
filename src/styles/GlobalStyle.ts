@@ -12,5 +12,7 @@ export default createGlobalStyle`
   body {
     font-size: 16px;
     font-family: "Roboto", sans-serif;
+    background-color: ${props => props.theme.colors.background};
+    color: ${props => props.theme.colors.textHeadiline};
   }
 `;
