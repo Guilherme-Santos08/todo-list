@@ -1,4 +1,5 @@
 import { Card } from "../Card";
+import { CardMore } from "../CardMore";
 
 import { Container } from "./styles";
 
@@ -12,16 +13,22 @@ export function Main() {
 
       <div className="choice">
         <button
-          aria-label="Favoritos"
+          aria-label="Botão para mostrar suas coleções favoritas"
           style={{ backgroundColor: "transparent" }}
         >
           Favoritos
         </button>
-        <button aria-label="Todas as Coleções">Todas as Coleções</button>
+        <button aria-label="Botão para mostrar todas as suas coleções">
+          Todas as Coleções
+        </button>
       </div>
 
       <div className="cards">
         <Card />
+        <Card />
+        <Card />
+        <Card />
+        <CardMore />
       </div>
     </Container>
   );

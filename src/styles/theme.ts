@@ -1,11 +1,14 @@
 const theme = {
   colors: {
-    background: "#242629",
-    backgroundSecondary: "#16161a",
+    background: "#141414",
+    backgroundSecondary: "#1f1f1f ",
+
+    // background: "#1c1c21",
+    // backgroundSecondary: "#26262c",
 
     textHeadiline: "#fffffe",
     textSubHeadiline: "#94a1b2",
-    
+
     // cardBackground: "",
     cardHeadiling: "#fffffe",
     cardParagraph: "#94a1b2",

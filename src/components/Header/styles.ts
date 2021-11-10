@@ -41,7 +41,7 @@ export const Container = styled.header`
       }
 
       .btn__add {
-        background-color: #7f5af0;
+        /* border: 2px solid ${props => props.theme.colors.background}; */
         border-radius: 5px;
       }
 

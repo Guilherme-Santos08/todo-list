@@ -9,11 +9,13 @@ export const Container = styled.main`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: 1.2rem;
 
     span {
       font-weight: bold;
       font-size: 1.8rem;
-      color: ${props => props.theme.colors.backgroundSecondary};
+      /* color: ${props => props.theme.colors.backgroundSecondary}; */
+      color: #ffffe2;
       cursor: pointer;
     }
   }
@@ -24,7 +26,7 @@ export const Container = styled.main`
       font-weight: bold;
       color: ${props => props.theme.colors.textHeadiline};
       
-      padding: 0.6rem 1.4rem;
+      padding: 0.8rem 1rem;
       background-color: ${props => props.theme.colors.backgroundSecondary};
       
       border-radius: 8px;
@@ -40,5 +42,12 @@ export const Container = styled.main`
         opacity: .7;
       }
     }
+  }
+
+  .cards {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 3rem;
   }
 `;
