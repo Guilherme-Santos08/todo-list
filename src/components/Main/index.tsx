@@ -1,5 +1,6 @@
 import { Card } from "../Card";
 import { CardMore } from "../CardMore";
+import { ModalInput } from "../ModalInput";
 
 import { Container } from "./styles";
 
@@ -30,6 +31,8 @@ export function Main() {
         <Card />
         <CardMore />
       </div>
+
+      <ModalInput />
     </Container>
   );
 }
