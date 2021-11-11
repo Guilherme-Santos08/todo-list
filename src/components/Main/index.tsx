@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Card } from "../Card";
 import { CardMore } from "../CardMore";
 import { ModalInput } from "../ModalInput";
@@ -5,6 +7,12 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
+  const [showInput, setShowInput] = useState(false);
+
+  const showModal = () => {
+    setShowInput(!showInput);
+  };
+
   return (
     <Container>
       <div className="name-section">
@@ -29,10 +37,10 @@ export function Main() {
         <Card />
         <Card />
         <Card />
-        <CardMore />
+        <CardMore showModal={showModal} />
       </div>
 
-      <ModalInput />
+      <ModalInput showModal={showModal} showInput={showInput} />
     </Container>
   );
 }

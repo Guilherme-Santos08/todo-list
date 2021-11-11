@@ -2,9 +2,13 @@ import { FiPlus } from "react-icons/fi";
 
 import { Container } from "./styles";
 
-export function CardMore() {
+type props = {
+  showModal: () => void;
+};
+
+export function CardMore({ showModal }: props) {
   return (
-    <Container>
+    <Container onClick={showModal}>
       <FiPlus />
     </Container>
   );
