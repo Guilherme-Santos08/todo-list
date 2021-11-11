@@ -1,12 +1,15 @@
 import { BrowserRouter as Router } from "react-router-dom";
+import { AddCardProvider } from "./context/AddCardContext";
 import { RoutesApp } from "./routes/routes";
 
 function App() {
   return (
     <>
-      <Router>
-        <RoutesApp />
-      </Router>
+      <AddCardProvider>
+        <Router>
+          <RoutesApp />
+        </Router>
+      </AddCardProvider>
     </>
   );
 }

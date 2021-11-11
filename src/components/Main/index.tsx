@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useAddCard } from "../../hooks/useAddCard";
 
 import { Card } from "../Card";
 import { CardMore } from "../CardMore";
@@ -7,11 +7,7 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
-  const [showInput, setShowInput] = useState(false);
-
-  const showModal = () => {
-    setShowInput(!showInput);
-  };
+  const { showInput, showModal } = useAddCard();
 
   return (
     <Container>

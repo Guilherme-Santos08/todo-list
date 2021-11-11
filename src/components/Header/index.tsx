@@ -1,7 +1,10 @@
 import { FiPlus, FiSearch } from "react-icons/fi";
+import { useAddCard } from "../../hooks/useAddCard";
 
 import { Container } from "./styles";
 export function Header() {
+  const { showModal } = useAddCard();
+
   return (
     <Container>
       <nav>
@@ -12,6 +15,7 @@ export function Header() {
               className="btn__add"
               aria-label="Adicionar nova tarefa"
               aria-describedby="Adicionar nova tarefa"
+              onClick={showModal}
             >
               <FiPlus />
             </button>
