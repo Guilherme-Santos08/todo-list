@@ -4,6 +4,11 @@ export const Container = styled.header`
   background-color: ${props => props.theme.colors.backgroundSecondary};
   padding: 0.5rem 1rem;
 
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
   nav {
     display: flex;
     align-items: center;
