@@ -1,13 +1,18 @@
 import { Container } from "./styles";
 
-export function Card() {
+type props = {
+  cardName: string;
+  backgroundColor: string;
+};
+
+export function Card({ cardName, backgroundColor }: props) {
   return (
     <Container aria-label="Cartão de tarefa da Escola">
       <div className="card__icon">
-        <img src="https://via.placeholder.com/150" alt="Cor do seu cartão" />
+        <div style={{ backgroundColor: backgroundColor }} />
       </div>
       <div className="card__info">
-        <h3>Escola</h3>
+        <h3>{cardName}</h3>
         <span>4/8 Completados</span>
       </div>
     </Container>

@@ -7,7 +7,7 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
-  const { showInput, showModal } = useAddCard();
+  const { showModal, collectionCard } = useAddCard();
 
   return (
     <Container>
@@ -29,14 +29,18 @@ export function Main() {
       </div>
 
       <div className="cards">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {collectionCard.map((collection, index) => (
+          <Card
+            cardName={collection.cardName}
+            backgroundColor={collection.cardColors}
+            key={index}
+          />
+        ))}
+
         <CardMore showModal={showModal} />
       </div>
 
-      <ModalInput showModal={showModal} showInput={showInput} />
+      <ModalInput />
     </Container>
   );
 }

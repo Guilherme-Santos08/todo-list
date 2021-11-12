@@ -1,48 +1,49 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  max-height: 100vh !important;
-  position: relative;
-
   .overlay {
     position: fixed;
-    display: none;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
-    z-index: 2;
+    display: none;
+    overscroll-behavior: hidden;
+
+    .overlay-content {
+      height: 100%;
+      overflow: hidden;
+    }
+
     &.show-modal {
       display: block;
     }
   }
 
   .modal {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 3;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -250%);
+    z-index: 12;
 
     margin: 8rem auto;
     padding: 3rem;
 
-    max-width: 500px;
+    width: 500px;
+    max-width: 94%;
     background-color: ${props => props.theme.colors.backgroundSecondary};
 
     border-radius: 16px;
     box-shadow: 0px 2px 24px -16px rgba(152, 145, 145, 1);
     cursor: default;
 
-    transform: translateY(-1300px);
     transition: all 0.5s ease;
     transition-delay: 300ms;
     &.show-modal {
-      transform: translateY(-650px);
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -151,7 +152,7 @@ export const Container = styled.div`
   @media (max-width: 636px) {
     .modal {
       &.show-modal {
-        transform: translateY(-750px);
+        /* transform: translateY(-750px); */
       }
     }
   }

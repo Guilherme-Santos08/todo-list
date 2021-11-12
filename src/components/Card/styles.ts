@@ -19,8 +19,9 @@ export const Container = styled.article`
   }
 
   .card__icon {
-    img {
-      max-width: 50px;
+    > div {
+      width: 50px;
+      height: 50px;
       border-radius: 16px;
     }
   }
