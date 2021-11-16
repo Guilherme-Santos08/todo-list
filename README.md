@@ -24,7 +24,7 @@ Esse projeto é basicamente um todo-list, mas você vai poder criar diversas col
 Primeiro clone o repositório.
 
 ```bash
-$ git clone https://github.com/rocketseat-education/nlw-06-reactjs
+$ git clone url_do_repositorio
 # Abra o terminal de sua prefência dentro da pasta clonada
 ```
 
