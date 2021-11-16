@@ -28,12 +28,13 @@ export const Container = styled.header`
       }
 
       li,
-      button {
+      button .search-box {
         display: flex;
         align-items: center;
       }
 
-      button {
+      button,
+      .search-box {
         font-size: 1.2rem;
         padding: 0.2rem;
         text-align: center;
@@ -48,6 +49,31 @@ export const Container = styled.header`
       .btn__add {
         /* border: 2px solid ${props => props.theme.colors.background}; */
         border-radius: 5px;
+      }
+
+      .search-box {
+        display: flex;
+        justify-content: flex-end;
+
+        input {
+          font-size: 1.1rem;
+          color: #fff;
+
+          height: 100%;
+          width: 0;
+          background-color: transparent;
+
+          border: none;
+          border-bottom: 2px solid silver;
+          outline: none;
+
+          transition: width 0.8s ease;
+        }
+        &:hover input,
+        input:valid {
+          margin-left: 0.7rem;
+          width: 100%;
+        }
       }
 
       img {

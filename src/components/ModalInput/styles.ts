@@ -43,7 +43,7 @@ export const Container = styled.div`
     transition: all 0.5s ease;
     transition-delay: 300ms;
     &.show-modal {
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -65%);
     }
   }
 

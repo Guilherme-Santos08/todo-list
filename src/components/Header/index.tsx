@@ -3,13 +3,27 @@ import { useAddCard } from "../../hooks/useAddCard";
 
 import { Container } from "./styles";
 export function Header() {
-  const { showModal } = useAddCard();
+  const { showModal, cardSearch, handleCardSearch } = useAddCard();
 
   return (
     <Container>
       <nav>
         <span>Coleção</span>
         <ul>
+          <li>
+            <div className="search-box">
+              <FiSearch />
+              <input
+                type="text"
+                placeholder="Procure pelo seu cartão"
+                aria-label="Procurar por tarefa"
+                aria-describedby="Procurar por tarefa"
+                onChange={handleCardSearch}
+                value={cardSearch}
+                required
+              />
+            </div>
+          </li>
           <li>
             <button
               className="btn__add"
@@ -18,14 +32,6 @@ export function Header() {
               onClick={showModal}
             >
               <FiPlus />
-            </button>
-          </li>
-          <li>
-            <button
-              aria-label="Procurar por tarefa"
-              aria-describedby="Procurar por tarefa"
-            >
-              <FiSearch />
             </button>
           </li>
           <li>
