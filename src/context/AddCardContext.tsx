@@ -16,12 +16,13 @@ type cardContextProps = {
   showModal: () => void;
   cardName: string;
   cardColor: string;
+  cardSearch: string;
   handleCardName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCardColor: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickAddCard: () => void;
-  collectionFilter: collectionCardProps[];
-  cardSearch: string;
   handleCardSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClickRemoveCard: any;
+  collectionFilter: collectionCardProps[];
 };
 
 export const AddCardContext = createContext({} as cardContextProps);
@@ -41,8 +42,8 @@ export function AddCardProvider({ children }: props) {
   const [collectionCard, setCollectionCard] = useState<collectionCardProps[]>(
     getCollectionLocalStorage() ? getCollectionLocalStorage : []
   );
-  const [cardSearch, setCardSearch] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const [cardSearch, setCardSearch] = useState("");
   const [cardName, setCardName] = useState("");
   const [cardColor, setCardColor] = useState("#000000");
 
@@ -86,6 +87,12 @@ export function AddCardProvider({ children }: props) {
     setCardName("");
   };
 
+  const handleClickRemoveCard = (itemName: { cardName: string }) => {
+    setCollectionCard(
+      collectionCard.filter(item => item.cardName !== itemName.cardName)
+    );
+  };
+
   return (
     <AddCardContext.Provider
       value={{
@@ -93,12 +100,13 @@ export function AddCardProvider({ children }: props) {
         showModal,
         cardName,
         cardColor,
+        cardSearch,
+        collectionFilter,
         handleCardName,
         handleCardColor,
         handleClickAddCard,
-        collectionFilter,
-        cardSearch,
         handleCardSearch,
+        handleClickRemoveCard,
       }}
     >
       {children}

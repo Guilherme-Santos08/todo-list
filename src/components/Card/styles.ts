@@ -19,7 +19,51 @@ export const Container = styled.article`
   }
 
   .card__icon {
-    > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    .card__icon--more {
+      span {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+    .card__icon--delete {
+      display: flex;
+      align-items: center;
+      color: #fff;
+
+      opacity: 0;
+      visibility: hidden;
+
+      position: absolute;
+      top: -10px;
+      right: -6px;
+
+      font-size: .85rem;
+      padding: .4rem;
+
+      background-color: ${props => props.theme.colors.background};
+      border-radius: 12px;
+      
+      border: none;
+      cursor: pointer;
+      transition: opacity .4s ease;
+
+      &.show-delete {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      &:hover {
+        opacity: .6;
+      }
+      svg {
+        margin-right: .3rem;
+      }
+    }
+    .card__icon--color {
       width: 50px;
       height: 50px;
       border-radius: 16px;

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAddCard } from "../../hooks/useAddCard";
 
 import { Card } from "../Card";
@@ -7,7 +8,8 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
-  const { showModal, collectionFilter } = useAddCard();
+  const { showModal, collectionFilter, handleClickRemoveCard } = useAddCard();
+  const [active, setActive] = useState(false);
 
   return (
     <Container>
@@ -17,26 +19,30 @@ export function Main() {
       </div>
 
       <div className="choice">
-        <button
+        {/* <button
           aria-label="Botão para mostrar suas coleções favoritas"
           style={{ backgroundColor: "transparent" }}
+          value="all"
         >
           Favoritos
-        </button>
+        </button> */}
         <button aria-label="Botão para mostrar todas as suas coleções">
           Todas as Coleções
         </button>
       </div>
 
       <div className="cards">
-        {collectionFilter.map((collection, index) => (
+        {collectionFilter.map(collection => (
           <Card
+            key={collection.id}
+            id={collection.id}
             cardName={collection.cardName}
             backgroundColor={collection.cardColors}
-            key={index}
+            setActive={setActive}
+            active={active}
+            handleClickRemoveCard={() => handleClickRemoveCard(collection)}
           />
         ))}
-
         <CardMore showModal={showModal} />
       </div>
 

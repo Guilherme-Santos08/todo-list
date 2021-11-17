@@ -1,15 +1,48 @@
+import { FiTrash } from "react-icons/fi";
 import { Container } from "./styles";
 
 type props = {
+  id: string;
+  active: boolean | string;
   cardName: string;
   backgroundColor: string;
+  handleClickRemoveCard: () => void;
+  setActive: (arg0: any) => void;
 };
 
-export function Card({ cardName, backgroundColor }: props) {
+export function Card({
+  cardName,
+  backgroundColor,
+  id,
+  active,
+  setActive,
+  handleClickRemoveCard,
+}: props) {
+  const handleShowDelete = () => {
+    if (active === id) {
+      setActive(null);
+    } else {
+      setActive(id);
+    }
+  };
+
   return (
     <Container aria-label="Cartão de tarefa da Escola">
       <div className="card__icon">
-        <div style={{ backgroundColor: backgroundColor }} />
+        <div
+          className="card__icon--color"
+          style={{ backgroundColor: backgroundColor }}
+        />
+        <div className="card__icon--more">
+          <span onClick={handleShowDelete}>...</span>
+        </div>
+        <button
+          className={`${active === id && "show-delete"} card__icon--delete`}
+          onClick={handleClickRemoveCard}
+        >
+          <FiTrash />
+          Deletar
+        </button>
       </div>
       <div className="card__info">
         <h3>{cardName}</h3>

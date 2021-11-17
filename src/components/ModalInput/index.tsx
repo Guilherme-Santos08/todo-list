@@ -11,7 +11,6 @@ export function ModalInput() {
     handleCardColor,
     handleClickAddCard,
   } = useAddCard();
-  console.log(showInput);
 
   const showModalTernario = showInput ? "show-modal" : "";
 
