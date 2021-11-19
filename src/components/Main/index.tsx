@@ -40,7 +40,7 @@ export function Main() {
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}
-            handleClickRemoveCard={() => handleClickRemoveCard(collection)}
+            handleClickRemoveCard={handleClickRemoveCard(collection)}
           />
         ))}
         <CardMore showModal={showModal} />

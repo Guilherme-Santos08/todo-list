@@ -45,10 +45,10 @@ export function ModalInput() {
           </button>
         </div>
       </div>
+
       <div className={`overlay ${showModalTernario}`} onClick={showModal}>
         <div className="overlay-content"></div>
       </div>
-      {/* <div onClick={showModal} className={`modal-overlay ${showModalTernario}`}></div> */}
     </Container>
   );
 }

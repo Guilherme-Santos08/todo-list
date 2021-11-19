@@ -1,0 +1,26 @@
+export function FuncoesParaUsarNoFuturo() {
+  const [showInput, setShowInput] = useState(false);
+  const [cardEditing, setEditing] = useState(false);
+
+  const showModalEdit = () => {
+    setShowInput(!showInput);
+    setEditing(true);
+  };
+
+  const handleCardEdits = (id: any) => {
+    const updateTodos = [...collectionCard].map(collection => {
+      if (collection.id === id) {
+        collection.cardName = "Teste";
+      }
+      return collection;
+    });
+    setCollectionCard(updateTodos);
+    setEditing(false);
+  };
+
+  return (
+    <button onClick={handleCardEdits} type="submit">
+      Editar cartão
+    </button>
+  );
+}

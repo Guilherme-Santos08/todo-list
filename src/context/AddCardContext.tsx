@@ -19,10 +19,11 @@ type cardContextProps = {
   cardSearch: string;
   handleCardName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCardColor: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClickAddCard: () => void;
   handleCardSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClickRemoveCard: any;
+  handleClickAddCard: () => void;
+  handleClickRemoveCard: (itemName: { cardName: string }) => void;
   collectionFilter: collectionCardProps[];
+  collectionCard: collectionCardProps[];
 };
 
 export const AddCardContext = createContext({} as cardContextProps);
@@ -47,13 +48,13 @@ export function AddCardProvider({ children }: props) {
   const [cardName, setCardName] = useState("");
   const [cardColor, setCardColor] = useState("#000000");
 
-  const collectionFilter = collectionCard.filter(collection =>
-    collection.cardName.toLowerCase().includes(cardSearch.toLowerCase())
-  );
-
   useEffect(() => {
     window.localStorage.setItem("collection", JSON.stringify(collectionCard));
   }, [collectionCard]);
+
+  const collectionFilter = collectionCard.filter(collection =>
+    collection.cardName.toLowerCase().includes(cardSearch.toLowerCase())
+  );
 
   const showModal = () => {
     setShowInput(!showInput);
@@ -107,6 +108,7 @@ export function AddCardProvider({ children }: props) {
         handleClickAddCard,
         handleCardSearch,
         handleClickRemoveCard,
+        collectionCard,
       }}
     >
       {children}
