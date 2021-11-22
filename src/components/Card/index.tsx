@@ -1,4 +1,5 @@
 import { FiTrash } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { Container } from "./styles";
 
 type props = {
@@ -28,6 +29,7 @@ export function Card({
 
   return (
     <Container aria-label="Cartão de tarefa da Escola">
+      <Link to={`todos/${id}`} />
       <div className="card__icon">
         <div
           className="card__icon--color"

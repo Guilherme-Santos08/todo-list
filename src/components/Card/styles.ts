@@ -4,18 +4,28 @@ export const Container = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  cursor: pointer;
-
+  position: relative;
+  
   padding: 1.3rem;
   background-color: ${props => props.theme.colors.backgroundSecondary};
   border-radius: 23px;
-
+  
   flex: 1 2 192px;
   min-height: 195px;
   transition: all 0.4s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-9px);
+  }
+
+  > a {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
   }
 
   .card__icon {
@@ -23,6 +33,7 @@ export const Container = styled.article`
     align-items: center;
     justify-content: space-between;
     position: relative;
+    z-index: 3;
     .card__icon--more {
       span {
         font-size: 1rem;
@@ -41,15 +52,15 @@ export const Container = styled.article`
       top: -10px;
       right: -6px;
 
-      font-size: .85rem;
-      padding: .4rem;
+      font-size: 0.85rem;
+      padding: 0.4rem;
 
       background-color: ${props => props.theme.colors.background};
       border-radius: 12px;
-      
+
       border: none;
       cursor: pointer;
-      transition: opacity .4s ease;
+      transition: opacity 0.4s ease;
 
       &.show-delete {
         opacity: 1;
@@ -57,10 +68,10 @@ export const Container = styled.article`
       }
 
       &:hover {
-        opacity: .6;
+        opacity: 0.6;
       }
       svg {
-        margin-right: .3rem;
+        margin-right: 0.3rem;
       }
     }
     .card__icon--color {

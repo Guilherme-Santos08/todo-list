@@ -9,6 +9,9 @@ type collectionCardProps = {
   cardName: string;
   cardColors: string;
   id: string;
+  todos: {
+    tasks: string | any;
+  };
 };
 
 type cardContextProps = {
@@ -82,6 +85,9 @@ export function AddCardProvider({ children }: props) {
         cardName: cardName,
         cardColors: cardColor,
         id: uuidv4(),
+        todos: {
+          tasks: undefined,
+        },
       },
     ]);
     setShowInput(false);
