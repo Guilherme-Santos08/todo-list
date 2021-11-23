@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useAddCard } from "../hooks/useAddCard";
 
 export function Todos() {
-  const { collectionFilter, collectionCard, handleClickAddTask } = useAddCard();
+  const { collectionFilter, handleClickAddTask } = useAddCard();
   const params = useParams();
   console.log(collectionFilter.filter(id => id.id === params.id));
   document.title = `${params.cardName}`;
