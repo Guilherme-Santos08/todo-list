@@ -5,13 +5,15 @@ type props = {
   children: ReactNode;
 };
 
+type TodosProps = {
+  task: string;
+};
+
 type collectionCardProps = {
   cardName: string;
   cardColors: string;
   id: string;
-  todos: {
-    task: { title: string | undefined };
-  };
+  todos: TodosProps[];
 };
 
 type cardContextProps = {
@@ -86,9 +88,7 @@ export function AddCardProvider({ children }: props) {
         cardName: cardName,
         cardColors: cardColor,
         id: uuidv4(),
-        todos: {
-          task: { title: "" },
-        },
+        todos: [],
       },
     ]);
     setShowInput(false);
@@ -100,10 +100,12 @@ export function AddCardProvider({ children }: props) {
       if (teste.id === testeId)
         return {
           ...teste,
-          todos: {
+          todos: [
             ...teste.todos,
-            task: { title: "testeeea" },
-          },
+            {
+              task: "Salve",
+            },
+          ],
         };
       return teste;
     });
