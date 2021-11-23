@@ -10,7 +10,7 @@ type collectionCardProps = {
   cardColors: string;
   id: string;
   todos: {
-    tasks: string | any;
+    task: { title: string | undefined };
   };
 };
 
@@ -25,6 +25,7 @@ type cardContextProps = {
   handleCardSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickAddCard: () => void;
   handleClickRemoveCard: (itemName: { cardName: string }) => void;
+  handleClickAddTask: (testeId: string) => void;
   collectionFilter: collectionCardProps[];
   collectionCard: collectionCardProps[];
 };
@@ -86,12 +87,27 @@ export function AddCardProvider({ children }: props) {
         cardColors: cardColor,
         id: uuidv4(),
         todos: {
-          tasks: undefined,
+          task: { title: "" },
         },
       },
     ]);
     setShowInput(false);
     setCardName("");
+  };
+
+  const handleClickAddTask = (testeId: string) => {
+    const newTasks = collectionCard.map(teste => {
+      if (teste.id === testeId)
+        return {
+          ...teste,
+          todos: {
+            ...teste.todos,
+            task: { title: "testeeea" },
+          },
+        };
+      return teste;
+    });
+    setCollectionCard(newTasks);
   };
 
   const handleClickRemoveCard = (itemName: { cardName: string }) => {
@@ -114,6 +130,7 @@ export function AddCardProvider({ children }: props) {
         handleClickAddCard,
         handleCardSearch,
         handleClickRemoveCard,
+        handleClickAddTask,
         collectionCard,
       }}
     >

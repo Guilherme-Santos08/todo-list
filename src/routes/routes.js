@@ -7,7 +7,7 @@ export function RoutesApp() {
   return (
     <Routes>
       <Route index element={<Home />} />
-      <Route path="/todos/:id" element={<Todos />} />
+      <Route path="/:cardName/:id" element={<Todos />} />
     </Routes>
   );
 }

@@ -29,7 +29,7 @@ export function Card({
 
   return (
     <Container aria-label="Cartão de tarefa da Escola">
-      <Link to={`todos/${id}`} />
+      <Link to={`${cardName}/${id}`} />
       <div className="card__icon">
         <div
           className="card__icon--color"
