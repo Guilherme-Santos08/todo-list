@@ -8,13 +8,13 @@ export const Container = styled.li`
   height: 50px;
   background-color: ${props => props.theme.colors.backgroundSecondary};
 
-  border-radius: 8px;
+  border-radius: 16px;
 
   .task {
     padding: 0 1rem;
     .task__input {
       h3 {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: normal;
         margin-left: 2.5rem;
 
@@ -45,20 +45,20 @@ export const Container = styled.li`
       }
       .checkmark {
         position: absolute;
-        top: -7px;
+        top: -4px;
         left: 0;
-        height: 30px;
-        width: 30px;
+        height: 24px;
+        width: 24px;
         background-color: #eee;
         border-radius: 6px;
-        border: 4px solid ${props => props.theme.colors.backgroundThird};
+        border: 3px solid ${props => props.theme.colors.backgroundThird};
 
         &:after {
           content: "";
           position: absolute;
           display: none;
-          left: 7px;
-          top: 3px;
+          left: 5px;
+          top: 1px;
           width: 5px;
           height: 10px;
           border: solid #fff;
