@@ -1,16 +1,22 @@
 import { Container } from "./styles";
 
-export function Task() {
+type props = {
+  title: string;
+  check?: boolean
+  id: any;
+};
+
+export function Task({ title, id, check }: props) {  
+
   return (
     <Container>
       <div className="task">
         <div className="task__input">
           <label className="container">
-            <h3>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Repellat, debitis!
-            </h3>
-            <input type="checkbox" />
+            <h3>{title}</h3>
+            <input
+              type="checkbox"
+            />
             <span className="checkmark"></span>
           </label>
         </div>

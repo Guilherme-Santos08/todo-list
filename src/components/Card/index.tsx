@@ -9,6 +9,7 @@ type props = {
   backgroundColor: string;
   handleClickRemoveCard: () => void;
   setActive: (arg0: any) => void;
+  todosLength: any;
 };
 
 export function Card({
@@ -18,6 +19,7 @@ export function Card({
   active,
   setActive,
   handleClickRemoveCard,
+  todosLength
 }: props) {
   const handleShowDelete = () => {
     if (active === id) {
@@ -48,7 +50,7 @@ export function Card({
       </div>
       <div className="card__info">
         <h3>{cardName}</h3>
-        <span>4/8 Completados</span>
+        <span>0/{todosLength} Completados</span>
       </div>
     </Container>
   );

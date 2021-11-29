@@ -9,7 +9,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     h2 {
-      margin-left: 1.4rem;
+      margin-left: 1rem;
     }
   }
 

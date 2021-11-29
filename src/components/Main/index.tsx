@@ -41,6 +41,7 @@ export function Main() {
             setActive={setActive}
             active={active}
             handleClickRemoveCard={() => handleClickRemoveCard(collection)}
+            todosLength={collection.todos.length}
           />
         ))}
         <CardMore showModal={showModal} />

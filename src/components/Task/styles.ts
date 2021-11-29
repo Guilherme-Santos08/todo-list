@@ -6,7 +6,7 @@ export const Container = styled.li`
 
   width: 100%;
   height: 50px;
-  background-color: ${props => props.theme.colors.backgroundSecondary};
+  background-color: ${(props) => props.theme.colors.backgroundSecondary};
 
   border-radius: 16px;
 
@@ -14,7 +14,7 @@ export const Container = styled.li`
     padding: 0 1rem;
     .task__input {
       h3 {
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: normal;
         margin-left: 2.5rem;
 
@@ -29,7 +29,7 @@ export const Container = styled.li`
         display: none;
 
         &:checked ~ .checkmark {
-          background-color: ${props => props.theme.colors.backgroundThird};
+          background-color: ${(props) => props.theme.colors.backgroundThird};
         }
 
         &:checked ~ .checkmark:after {
@@ -45,22 +45,22 @@ export const Container = styled.li`
       }
       .checkmark {
         position: absolute;
-        top: -4px;
+        top: 0px;
         left: 0;
-        height: 24px;
-        width: 24px;
+        height: 20px;
+        width: 20px;
         background-color: #eee;
         border-radius: 6px;
-        border: 3px solid ${props => props.theme.colors.backgroundThird};
+        border: 3px solid ${(props) => props.theme.colors.backgroundThird};
 
         &:after {
           content: "";
           position: absolute;
           display: none;
-          left: 5px;
+          left: 4px;
           top: 1px;
-          width: 5px;
-          height: 10px;
+          width: 3px;
+          height: 8px;
           border: solid #fff;
           border-width: 0 3px 3px 0;
           transform: rotate(45deg);
