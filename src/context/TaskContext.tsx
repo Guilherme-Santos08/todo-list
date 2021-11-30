@@ -10,6 +10,7 @@ type cardContextProps = {
   taskName: string;
   handleClickAddTask: (testeId: string) => void;
   handleTaskName: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCompleteTask: (id: string) => void;
 };
 
 export const TaskContext = createContext({} as cardContextProps);
@@ -42,12 +43,25 @@ export function TaskProvider({ children }: props) {
     setTaskName(e.target.value);
   };
 
+  const handleCompleteTask = (testeId: string) => {
+    const newTodoList = collectionCard.map((collection) =>
+      collection.todos.map((todo) => {
+        if (todo.id === testeId) return { ...todo, completed: !todo.completed };
+        return todo;
+      })
+    );
+
+    console.log(newTodoList);
+    // setCollectionCard(newTodoList);
+  };
+
   return (
     <TaskContext.Provider
       value={{
         handleTaskName,
         handleClickAddTask,
         taskName,
+        handleCompleteTask,
       }}
     >
       {children}

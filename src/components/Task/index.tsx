@@ -1,12 +1,14 @@
+import { useTask } from "../../hooks/useTask";
 import { Container } from "./styles";
 
 type props = {
   title: string;
-  check?: boolean
-  id: any;
+  check?: boolean;
+  id: string;
 };
 
-export function Task({ title, id, check }: props) {  
+export function Task({ title, id, check }: props) {
+  const {handleCompleteTask} = useTask()
 
   return (
     <Container>
@@ -14,9 +16,7 @@ export function Task({ title, id, check }: props) {
         <div className="task__input">
           <label className="container">
             <h3>{title}</h3>
-            <input
-              type="checkbox"
-            />
+            <input type="checkbox"onChange={() => handleCompleteTask(id)} />
             <span className="checkmark"></span>
           </label>
         </div>
