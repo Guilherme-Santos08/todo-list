@@ -44,16 +44,38 @@ export function TaskProvider({ children }: props) {
   };
 
   const handleCompleteTask = (testeId: string) => {
-    const newTodoList = collectionCard.map((collection) =>
-      collection.todos.map((todo) => {
-        if (todo.id === testeId) return { ...todo, completed: !todo.completed };
-        return todo;
-      })
-    );
-
-    console.log(newTodoList);
-    // setCollectionCard(newTodoList);
+    const newComplete = collectionCard.map((teste) => {
+      return {
+        ...teste,
+        todos: teste.todos.map((todo) => {
+          if (todo.task === testeId) {
+            return { ...todo, completed: !todo.completed };
+          }
+          return todo;
+        }),
+      };
+    });
+    setCollectionCard(newComplete);
+    console.log(newComplete);
   };
+
+  // const handleCompleteTask = (testeId: string) => {
+  //   const newComplete = collectionCard.map((teste) => {
+  //     if (teste.id === testeId)
+  //       return {
+  //         ...teste,
+  //         todos: [
+  //         ...teste.todos,
+  //           {
+  //             completed: true,
+  //           },
+  //         ],
+  //       };
+  //     return teste;
+  //   });
+  //   setCollectionCard(newComplete);
+  //   console.log(newComplete)
+  // };
 
   return (
     <TaskContext.Provider

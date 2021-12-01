@@ -34,12 +34,11 @@ export function Todos() {
         <AddTask id={`${params.id}`} />
 
         <ul>
-          {tasks.map((e) => (
+          {tasks.map((e, index) => (
             <Task
-              key={e.id}
+              key={index}
               title={e.task}
               check={e.completed}
-              id={e.id}
             />
           ))}
         </ul>
