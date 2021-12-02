@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { Container } from "./styles";
 
 type props = {
-  id: string;
-  active: boolean | string;
   cardName: string;
   backgroundColor: string;
-  handleClickRemoveCard: () => void;
+  id: string;
+  active: boolean | string;
   setActive: (arg0: any) => void;
-  todosLength: any;
+  handleClickRemoveCard: () => void;
+  todosLength: number;
+  todoCompleteLength: number;
 };
 
 export function Card({
@@ -19,7 +20,8 @@ export function Card({
   active,
   setActive,
   handleClickRemoveCard,
-  todosLength
+  todosLength,
+  todoCompleteLength,
 }: props) {
   const handleShowDelete = () => {
     if (active === id) {
@@ -43,6 +45,7 @@ export function Card({
         <button
           className={`${active === id && "show-delete"} card__icon--delete`}
           onClick={handleClickRemoveCard}
+          data-message="Isso é um botão para excluir o cartão"
         >
           <FiTrash />
           Deletar
@@ -50,7 +53,9 @@ export function Card({
       </div>
       <div className="card__info">
         <h3>{cardName}</h3>
-        <span>0/{todosLength} Completados</span>
+        <span>
+          {todoCompleteLength}/{todosLength} Completados
+        </span>
       </div>
     </Container>
   );

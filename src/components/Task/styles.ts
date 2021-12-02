@@ -11,6 +11,11 @@ export const Container = styled.li`
   border-radius: 16px;
 
   .task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
     padding: 0 1rem;
     .task__input {
       h3 {
@@ -66,6 +71,13 @@ export const Container = styled.li`
           transform: rotate(45deg);
         }
       }
+    }
+
+    .task__delete {
+      color: #fff;
+      background-color: transparent;
+      cursor: pointer;
+      border: none;
     }
   }
 

@@ -32,7 +32,7 @@ export function Main() {
       </div>
 
       <div className="cards">
-        {collectionFilter.map(collection => (
+        {collectionFilter.map((collection) => (
           <Card
             key={collection.id}
             id={collection.id}
@@ -42,6 +42,9 @@ export function Main() {
             active={active}
             handleClickRemoveCard={() => handleClickRemoveCard(collection)}
             todosLength={collection.todos.length}
+            todoCompleteLength={
+              collection.todos.filter((todo) => todo.completed === true).length
+            }
           />
         ))}
         <CardMore showModal={showModal} />
