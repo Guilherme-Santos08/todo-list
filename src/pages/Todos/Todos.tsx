@@ -25,7 +25,7 @@ export function Todos() {
 
   return (
     <>
-      <Header />
+      <Header search={false} />
       <Container>
         <div className="page">
           <div className="page__back" onClick={() => navigate(-1)}>
@@ -35,6 +35,12 @@ export function Todos() {
         </div>
 
         <AddTask id={`${params.id}`} />
+
+        <div className="task-lenght">
+          <span aria-label="Quantidade de tarefas adicionada">
+            Tarefas - {tasks.length}
+          </span>
+        </div>
 
         <ul>
           {tasks.map((todo, index) => (

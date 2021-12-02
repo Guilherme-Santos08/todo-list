@@ -31,6 +31,11 @@ export const Container = styled.div`
     }
   }
 
+  .task-lenght {
+    margin-left: .8rem;
+    margin-bottom: .6rem;
+  }
+
   ul {
     li + li {
       margin-top: 0.7rem;
