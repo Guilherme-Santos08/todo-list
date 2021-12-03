@@ -112,13 +112,13 @@ export function AddCardProvider({ children }: props) {
         cardColor,
         cardSearch,
         collectionFilter,
+        collectionCard,
+        setCollectionCard,
         handleCardName,
         handleCardColor,
         handleClickAddCard,
         handleCardSearch,
         handleClickRemoveCard,
-        collectionCard,
-        setCollectionCard
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 import { useAddCard } from "../../hooks/useAddCard";
+
 import { Container } from "./styles";
 
 export function ModalInput() {
@@ -40,7 +41,11 @@ export function ModalInput() {
         </div>
 
         <div className="modal__button">
-          <button onClick={handleClickAddCard} type="submit" aria-label="Adicionar novo cartão">
+          <button
+            onClick={handleClickAddCard}
+            type="submit"
+            aria-label="Adicionar novo cartão"
+          >
             Adicionar cartão
           </button>
         </div>

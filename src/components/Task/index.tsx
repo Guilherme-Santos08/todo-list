@@ -1,5 +1,5 @@
-import { MdDelete } from "react-icons/md";
 import { useTask } from "../../hooks/useTask";
+import { MdDelete } from "react-icons/md";
 
 import { Container } from "./styles";
 

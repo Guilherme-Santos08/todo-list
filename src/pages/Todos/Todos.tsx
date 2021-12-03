@@ -6,8 +6,8 @@ import { useTask } from "../../hooks/useTask";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
 import { Header } from "../../components/Header";
-import { Task } from "../../components/Task";
 import { AddTask } from "../../components/AddTask";
+import { Task } from "../../components/Task";
 
 import { Container } from "./styles";
 
