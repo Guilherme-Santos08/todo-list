@@ -28,9 +28,13 @@ export function Todos() {
       <Header search={false} />
       <Container>
         <div className="page">
-          <div className="page__back" onClick={() => navigate(-1)}>
+          <button
+            className="page__back"
+            onClick={() => navigate(-1)}
+            aria-label="Voltar para página anterior"
+          >
             <MdKeyboardArrowLeft size="28" />
-          </div>
+          </button>
           <h2>{params.cardName}</h2>
         </div>
 

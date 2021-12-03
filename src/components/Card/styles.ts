@@ -35,9 +35,13 @@ export const Container = styled.article`
     position: relative;
     z-index: 3;
     .card__icon--more {
-      span {
+      button {
         font-size: 1rem;
         font-weight: bold;
+        color: #fff;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
       }
     }
     .card__icon--delete {

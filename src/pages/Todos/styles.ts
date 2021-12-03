@@ -23,6 +23,7 @@ export const Container = styled.div`
 
     border-radius: 8px;
     cursor: pointer;
+    border: 0;
 
     transition: opacity .2s ease-in-out;
 

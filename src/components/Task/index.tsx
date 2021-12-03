@@ -29,7 +29,7 @@ export function Task({ title, check, handleDeleteTask }: props) {
         </div>
         <button
           className="task__delete"
-          data-message="Isso é um botão para excluir a tarefa"
+          aria-label="Excluir a tarefa"
           onClick={handleDeleteTask}
         >
           <MdDelete size={22} color={"#ccc"} />

@@ -40,7 +40,7 @@ export function ModalInput() {
         </div>
 
         <div className="modal__button">
-          <button onClick={handleClickAddCard} type="submit">
+          <button onClick={handleClickAddCard} type="submit" aria-label="Adicionar novo cartão">
             Adicionar cartão
           </button>
         </div>

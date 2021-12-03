@@ -1,11 +1,11 @@
-import { FiPlus } from "react-icons/fi";
 import { useTask } from "../../hooks/useTask";
+import { FiPlus } from "react-icons/fi";
 
 import { Container } from "./styles";
 
 type props = {
   id: string;
-}
+};
 
 export function AddTask({ id }: props) {
   const { taskName, handleTaskName, handleClickAddTask } = useTask();
@@ -17,11 +17,15 @@ export function AddTask({ id }: props) {
         type="text"
         id="add-task"
         placeholder="Add tarefa"
-        value={taskName}
         onChange={handleTaskName}
+        value={taskName}
         required
       />
-      <button className="add-task" onClick={() => handleClickAddTask(id)}>
+      <button
+        className="add-task"
+        aria-label="adicionar nova tarefa"
+        onClick={() => handleClickAddTask(id)}
+      >
         <FiPlus size="16" />
       </button>
     </Container>

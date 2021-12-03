@@ -8,7 +8,7 @@ type props = {
 
 export function CardMore({ showModal }: props) {
   return (
-    <Container onClick={showModal}>
+    <Container onClick={showModal} aria-label="Adicionar novo cartão">
       <FiPlus />
     </Container>
   );

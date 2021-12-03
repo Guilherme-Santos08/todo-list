@@ -1,5 +1,6 @@
-import { FiTrash } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { FiTrash } from "react-icons/fi";
+
 import { Container } from "./styles";
 
 type props = {
@@ -32,7 +33,7 @@ export function Card({
   };
 
   return (
-    <Container aria-label="Cartão de tarefa da Escola">
+    <Container>
       <Link to={`${cardName}/${id}`} />
       <div className="card__icon">
         <div
@@ -40,19 +41,24 @@ export function Card({
           style={{ backgroundColor: backgroundColor }}
         />
         <div className="card__icon--more">
-          <span onClick={handleShowDelete}>...</span>
+          <button
+            onClick={handleShowDelete}
+            aria-label="Mostrar botão para deletar o cartão"
+          >
+            ...
+          </button>
         </div>
         <button
           className={`${active === id && "show-delete"} card__icon--delete`}
           onClick={handleClickRemoveCard}
-          data-message="Isso é um botão para excluir o cartão"
+          aria-label="Excluir cartão"
         >
           <FiTrash />
           Deletar
         </button>
       </div>
       <div className="card__info">
-        <h3>{cardName}</h3>
+        <h3 title={cardName}>{cardName}</h3>
         <span>
           {todoCompleteLength}/{todosLength} Completados
         </span>
