@@ -12,6 +12,7 @@ type cardContextProps = {
   handleTaskName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCompleteTask: (id: string) => void;
   handleDeleteTask: (taskName: { task: string }) => void;
+  handleAddTaskEnter: (keyDown: any, taskId: string) => void;
 };
 
 export const TaskContext = createContext({} as cardContextProps);
@@ -28,7 +29,7 @@ export function TaskProvider({ children }: props) {
     if (taskName === "") {
       return;
     }
-    const newTasks = collectionCard.map((teste) => {
+    const newTasks = collectionCard.map(teste => {
       if (teste.id === taskId)
         return {
           ...teste,
@@ -48,10 +49,10 @@ export function TaskProvider({ children }: props) {
   };
 
   const handleCompleteTask = (taskId: string) => {
-    const newComplete = collectionCard.map((collection) => {
+    const newComplete = collectionCard.map(collection => {
       return {
         ...collection,
-        todos: collection.todos.map((todo) => {
+        todos: collection.todos.map(todo => {
           if (todo.task === taskId) {
             return { ...todo, completed: !todo.completed };
           }
@@ -64,13 +65,20 @@ export function TaskProvider({ children }: props) {
   };
 
   const handleDeleteTask = (taskName: { task: string }) => {
-    const newDelete = collectionCard.map((collection) => {
+    const newDelete = collectionCard.map(collection => {
       return {
         ...collection,
-        todos: collection.todos.filter((todo) => todo.task !== taskName.task),
+        todos: collection.todos.filter(todo => todo.task !== taskName.task),
       };
     });
     setCollectionCard(newDelete);
+  };
+
+  const handleAddTaskEnter = (keyDown: any, taskId: string) => {
+    if (keyDown.keyCode === 13) {
+      console.log(keyDown)
+      handleClickAddTask(taskId);
+    }
   };
 
   return (
@@ -81,6 +89,7 @@ export function TaskProvider({ children }: props) {
         handleClickAddTask,
         handleCompleteTask,
         handleDeleteTask,
+        handleAddTaskEnter
       }}
     >
       {children}

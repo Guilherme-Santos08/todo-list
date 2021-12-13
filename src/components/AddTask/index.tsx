@@ -8,7 +8,7 @@ type props = {
 };
 
 export function AddTask({ id }: props) {
-  const { taskName, handleTaskName, handleClickAddTask } = useTask();
+  const { taskName, handleTaskName, handleClickAddTask, handleAddTaskEnter } = useTask();
 
   return (
     <Container>
@@ -19,6 +19,7 @@ export function AddTask({ id }: props) {
         placeholder="Add tarefa"
         onChange={handleTaskName}
         value={taskName}
+        onKeyDown={keyDown => handleAddTaskEnter(keyDown, id)}
         required
       />
       <button
