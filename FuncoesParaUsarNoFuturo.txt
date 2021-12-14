@@ -24,3 +24,79 @@ export function FuncoesParaUsarNoFuturo() {
     </button>
   );
 }
+
+        <form>
+          <div className="input">
+            <input type="email" id="name__card" required />
+            <div className="underline"></div>
+            <label htmlFor="name__card">Email</label>
+          </div>
+
+          <div className="input">
+            <input type="password" id="name__card" required />
+            <div className="underline"></div>
+            <label htmlFor="name__card">Senha</label>
+          </div>
+        </form>
+
+
+            .input {
+      height: 40px;
+      width: 50%;
+      position: relative;
+      background-color: transparent;
+      color: #000;
+
+      label {
+        position: absolute;
+        left: 0;
+        bottom: 12px;
+        z-index: 99;
+
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+
+      input {
+        font-size: 1.1rem;
+
+        height: 100%;
+        width: 100%;
+        background-color: transparent;
+
+        border: none;
+        border-bottom: 2px solid silver;
+        outline: none;
+
+        &:focus ~ .underline::before {
+          transform: scaleX(1);
+        }
+
+        &:focus ~ label,
+        &:valid ~ label {
+          transform: translateY(-31px);
+          font-size: 1rem;
+        }
+      }
+
+      .underline {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+      }
+
+      .underline::before {
+        position: absolute;
+        content: "";
+        height: 100%;
+        width: 100%;
+        background-color: ${props => props.theme.colors.backgroundThird};
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .input + .input {
+      margin-top: 3rem;
+    }
