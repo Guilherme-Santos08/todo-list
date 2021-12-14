@@ -1,5 +1,10 @@
-import { useAddCard } from "../../hooks/useAddCard";
+import { useState } from "react";
 import { FiPlus, FiSearch } from "react-icons/fi";
+
+import { useAddCard } from "../../hooks/useAddCard";
+import { useAuth } from "../../hooks/useAuth";
+
+import { ModalInfo } from "../ModalInfo";
 
 import { Container } from "./styles";
 
@@ -9,11 +14,17 @@ type props = {
 
 export function Header({ search = true }: props) {
   const { showModal, cardSearch, handleCardSearch } = useAddCard();
+  const { user } = useAuth();
+  const [showConfig, setShowConfig] = useState(false);
+
+  const handleShowConfig = () => {
+    setShowConfig(!showConfig);
+  };
 
   return (
     <Container>
       <nav>
-        <span>Coleção</span>
+        <span>Bem vindo, {user?.name}!</span>
         <ul>
           {search ? (
             <>
@@ -45,8 +56,11 @@ export function Header({ search = true }: props) {
           ) : (
             ""
           )}
-          <li>
-            <img src="https://via.placeholder.com/150" alt="" />
+          <li className="show-modal">
+            <button onClick={handleShowConfig}>
+              <img src={user?.avatar} alt={`Foto de perfil de ${user?.name}`} />
+            </button>
+            {showConfig ? <ModalInfo /> : ""}
           </li>
         </ul>
       </nav>

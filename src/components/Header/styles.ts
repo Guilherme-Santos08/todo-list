@@ -27,17 +27,9 @@ export const Container = styled.header`
         margin-left: 1.4rem;
       }
 
-      li,
-      button .search-box {
-        display: flex;
-        align-items: center;
-      }
-
       button,
       .search-box {
         font-size: 1.2rem;
-        padding: 0.2rem;
-        text-align: center;
 
         color: ${props => props.theme.colors.textHeadiline};
         background-color: transparent;
@@ -74,6 +66,10 @@ export const Container = styled.header`
           margin-left: 0.7rem;
           width: 100%;
         }
+      }
+
+      .show-modal {
+        position: relative;
       }
 
       img {
