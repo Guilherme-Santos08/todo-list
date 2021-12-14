@@ -5,10 +5,12 @@ import { Container } from "./styles";
 export function ModalInfo() {
   const { signout } = useAuth();
   const navigate = useNavigate();
+
   const handleSignout = () => {
     signout();
     navigate("/");
   };
+  
   return (
     <Container>
       <div>

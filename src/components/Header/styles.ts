@@ -27,7 +27,8 @@ export const Container = styled.header`
         margin-left: 1.4rem;
       }
 
-      button,
+      .btn__add,
+      .btn__show-info,
       .search-box {
         font-size: 1.2rem;
 

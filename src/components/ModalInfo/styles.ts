@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   position: absolute;
-  right: 0rem;
-  top: 3.7rem;
+  right: 0.9rem;
+  top: 4.1rem;
 
   background-color: ${props => props.theme.colors.backgroundSecondary};
   width: 200px;
@@ -16,8 +16,13 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
 
-    a {
+    button {
+      font-size: 1rem;
+      text-align: start;
       color: #fff;
+      background-color: transparent;
+      cursor: pointer;
+      border: none;
     }
   }
 

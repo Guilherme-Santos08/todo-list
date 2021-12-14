@@ -56,8 +56,8 @@ export function Header({ search = true }: props) {
           ) : (
             ""
           )}
-          <li className="show-modal">
-            <button onClick={handleShowConfig}>
+          <li>
+            <button onClick={handleShowConfig} className="btn__show-info">
               <img src={user?.avatar} alt={`Foto de perfil de ${user?.name}`} />
             </button>
             {showConfig ? <ModalInfo /> : ""}
