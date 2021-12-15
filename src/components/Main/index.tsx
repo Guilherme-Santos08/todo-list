@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useState } from "react";
 import { useAddCard } from "../../hooks/useAddCard";
 
@@ -8,9 +9,14 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
-  const { showModal, collectionFilter, handleClickRemoveCard } = useAddCard();
+  const {
+    showModal,
+    // collectionFilter,
+    handleClickRemoveCard,
+    collectionCardFirebase,
+  } = useAddCard();
   const [active, setActive] = useState(false);
-
+  console.log(collectionCardFirebase);
   return (
     <Container>
       <div className="name-section">
@@ -32,7 +38,7 @@ export function Main() {
       </div>
 
       <div className="cards">
-        {collectionFilter.map((collection) => (
+        {collectionCardFirebase.map(collection => (
           <Card
             key={collection.id}
             id={collection.id}
@@ -40,11 +46,9 @@ export function Main() {
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}
-            handleClickRemoveCard={() => handleClickRemoveCard(collection)}
-            todosLength={collection.todos.length}
-            todoCompleteLength={
-              collection.todos.filter((todo) => todo.completed === true).length
-            }
+            handleClickRemoveCard={() => handleClickRemoveCard(collection.idFirebase)}
+            todosLength={12}
+            todoCompleteLength={12}
           />
         ))}
         <CardMore showModal={showModal} />

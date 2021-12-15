@@ -1,5 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { database } from "../lib/firebase";
+import { ref, onValue, push, remove } from "firebase/database";
+import { useAuth } from "../hooks/useAuth";
 
 type props = {
   children: ReactNode;
@@ -15,6 +18,7 @@ type collectionCardProps = {
   cardName: string;
   cardColors: string;
   id: string;
+  idFirebase: string;
   todos: TodosProps[];
 };
 
@@ -28,9 +32,10 @@ type cardContextProps = {
   handleCardColor: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCardSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickAddCard: () => void;
-  handleClickRemoveCard: (itemName: { cardName: string }) => void;
+  handleClickRemoveCard: (itemName: string) => void;
   collectionFilter: collectionCardProps[];
   collectionCard: collectionCardProps[];
+  collectionCardFirebase: collectionCardProps[];
   setCollectionCard: any;
 };
 
@@ -55,8 +60,14 @@ export function AddCardProvider({ children }: props) {
   const [cardSearch, setCardSearch] = useState("");
   const [cardName, setCardName] = useState("");
   const [cardColor, setCardColor] = useState("#000000");
+  const [collectionCardFirebase, setCollectionCardFirebase] = useState<
+    collectionCardProps[]
+  >([]);
 
-  const collectionFilter = collectionCard.filter((collection) =>
+  const { user } = useAuth();
+  console.log(collectionCardFirebase);
+
+  const collectionFilter = collectionCard.filter(collection =>
     collection.cardName.toLowerCase().includes(cardSearch.toLowerCase())
   );
 
@@ -84,24 +95,35 @@ export function AddCardProvider({ children }: props) {
     if (cardName === "" || cardColor === "") {
       return;
     }
-    setCollectionCard([
-      ...collectionCard,
-      {
-        cardName: cardName,
-        cardColors: cardColor,
-        id: uuidv4(),
-        todos: [],
-      },
-    ]);
+
+    push(ref(database, "users/" + user?.id), {
+      cardName: cardName,
+      cardColors: cardColor,
+      id: uuidv4(),
+      todos: [],
+    });
+
     setShowInput(false);
     setCardName("");
   };
 
-  const handleClickRemoveCard = (itemName: { cardName: string }) => {
-    setCollectionCard(
-      collectionCard.filter((item) => item.cardName !== itemName.cardName)
+  const handleClickRemoveCard = (itemName: string) => {
+    remove(ref(database, `users/${user?.id}/${itemName}`)).then(() =>
+      console.log("Cartão excluido")
     );
   };
+
+  useEffect(() => {
+    const starCountRef = ref(database, "users/" + user?.id);
+    onValue(starCountRef, snapshot => {
+      const data = snapshot.val();
+      const messageList = [];
+      for (let idFirebase in data) {
+        messageList.push({ idFirebase, ...data[idFirebase] });
+      }
+      setCollectionCardFirebase(messageList);
+    });
+  }, [user?.id]);
 
   return (
     <AddCardContext.Provider
@@ -119,6 +141,7 @@ export function AddCardProvider({ children }: props) {
         handleClickAddCard,
         handleCardSearch,
         handleClickRemoveCard,
+        collectionCardFirebase,
       }}
     >
       {children}

@@ -100,3 +100,14 @@ export function FuncoesParaUsarNoFuturo() {
     .input + .input {
       margin-top: 3rem;
     }
+
+
+        // setCollectionCard([
+    //   ...collectionCard,
+    //   {
+    //     cardName: cardName,
+    //     cardColors: cardColor,
+    //     id: uuidv4(),
+    //     todos: [],
+    //   },
+    // ]);
