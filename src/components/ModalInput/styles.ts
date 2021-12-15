@@ -142,9 +142,15 @@ export const Container = styled.div`
 
       border: none;
       cursor: pointer;
-      transition: opacity 0.2s ease;
+      transition: opacity, transform 0.2s ease;
+      box-shadow: 0px 5px 10px #161616;
       &:hover {
-        opacity: 0.8;
+        opacity: 0.9;
+      }
+
+      &:active {
+        box-shadow: 0px 4px 8px #161616;
+        transform: scale(0.95);
       }
     }
   }

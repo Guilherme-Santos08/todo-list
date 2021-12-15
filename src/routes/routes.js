@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Erro404 } from "../pages/Erro404/Erro404";
 
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login/Login";
@@ -31,6 +32,7 @@ export function RoutesApp() {
           }
         />
         <Route path="/" element={<Login />} />
+        <Route path="*" element={<Erro404/>} />
       </Routes>
     </>
   );
