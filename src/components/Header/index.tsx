@@ -60,7 +60,11 @@ export function Header({ search = true }: props) {
             <button onClick={handleShowConfig} className="btn__show-info">
               <img src={user?.avatar} alt={`Foto de perfil de ${user?.name}`} />
             </button>
-            {showConfig ? <ModalInfo /> : ""}
+            {showConfig ? (
+              <ModalInfo handleShowConfig={handleShowConfig} />
+            ) : (
+              ""
+            )}
           </li>
         </ul>
       </nav>

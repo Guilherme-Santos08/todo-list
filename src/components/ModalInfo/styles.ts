@@ -12,9 +12,11 @@ export const Container = styled.div`
   border-radius: 8px;
   box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.18);
 
-  > div {
+  .signout {
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 11;
 
     button {
       font-size: 1rem;
@@ -23,6 +25,23 @@ export const Container = styled.div`
       background-color: transparent;
       cursor: pointer;
       border: none;
+    }
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    cursor: pointer;
+    display: block;
+    overscroll-behavior: hidden;
+    z-index: 10;
+
+    .overlay-content {
+      height: 100%;
+      overflow: hidden;
     }
   }
 
