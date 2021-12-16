@@ -11,12 +11,11 @@ import { Container } from "./styles";
 export function Main() {
   const {
     showModal,
-    // collectionFilter,
+    collectionFilter,
     handleClickRemoveCard,
-    collectionCardFirebase,
   } = useAddCard();
   const [active, setActive] = useState(false);
-  console.log(collectionCardFirebase);
+
   return (
     <Container>
       <div className="name-section">
@@ -38,7 +37,7 @@ export function Main() {
       </div>
 
       <div className="cards">
-        {collectionCardFirebase.map(collection => (
+        {collectionFilter.map(collection => (
           <Card
             key={collection.id}
             id={collection.id}

@@ -1,6 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { authentication } from "../lib/firebase";
-import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 type props = {
   children: ReactNode;
@@ -16,6 +21,7 @@ type authContextProps = {
   signInGoogle: () => void;
   signout: () => void;
   user: User | null;
+  isLogged: boolean;
 };
 
 export const AuthContext = createContext({} as authContextProps);
@@ -33,10 +39,21 @@ const getUserLocalStorage = () => {
 
 export function AuthProvider({ children }: props) {
   const [user, setUser] = useState<User | null>(getUserLocalStorage);
+  const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     window.localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
+
+  useEffect(() => {
+    onAuthStateChanged(authentication, user => {
+      if (user) {
+        setIsLogged(true);
+      } else {
+        setIsLogged(false);
+      }
+    });
+  }, []);
 
   const signInGoogle = async () => {
     try {
@@ -71,7 +88,7 @@ export function AuthProvider({ children }: props) {
   };
 
   return (
-    <AuthContext.Provider value={{ signInGoogle, user, signout }}>
+    <AuthContext.Provider value={{ signInGoogle, user, signout, isLogged }}>
       {children}
     </AuthContext.Provider>
   );

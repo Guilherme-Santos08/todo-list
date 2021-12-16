@@ -65,15 +65,14 @@ export function AddCardProvider({ children }: props) {
   >([]);
 
   const { user } = useAuth();
-  console.log(collectionCardFirebase);
 
-  const collectionFilter = collectionCard.filter(collection =>
+  const collectionFilter = collectionCardFirebase.filter(collection =>
     collection.cardName.toLowerCase().includes(cardSearch.toLowerCase())
   );
 
   useEffect(() => {
-    window.localStorage.setItem("collection", JSON.stringify(collectionCard));
-  }, [collectionCard]);
+    window.localStorage.setItem("collection", JSON.stringify(collectionCardFirebase));
+  }, [collectionCardFirebase]);
 
   const showModal = () => {
     setShowInput(!showInput);

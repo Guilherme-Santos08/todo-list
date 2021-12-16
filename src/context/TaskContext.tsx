@@ -61,7 +61,6 @@ export function TaskProvider({ children }: props) {
       };
     });
     setCollectionCard(newComplete);
-    console.log(newComplete);
   };
 
   const handleDeleteTask = (taskName: { task: string }) => {
@@ -76,7 +75,6 @@ export function TaskProvider({ children }: props) {
 
   const handleAddTaskEnter = (keyDown: any, taskId: string) => {
     if (keyDown.keyCode === 13) {
-      console.log(keyDown)
       handleClickAddTask(taskId);
     }
   };

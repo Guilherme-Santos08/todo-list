@@ -7,10 +7,10 @@ import illustrationSvg from "../../assets/undraw_terms_re_6ak4.svg";
 import { Container } from "./styles";
 
 export function Login() {
-  const { signInGoogle, user } = useAuth();
+  const { signInGoogle, isLogged } = useAuth();
   const navigate = useNavigate();
 
-  if (user) {
+  if (isLogged) {
     navigate("/home");
   }
 
