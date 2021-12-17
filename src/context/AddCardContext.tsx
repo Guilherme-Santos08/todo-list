@@ -12,6 +12,7 @@ export type TodosProps = {
   task: string;
   completed: boolean;
   id: string;
+  idFirebase: string;
 };
 
 type collectionCardProps = {

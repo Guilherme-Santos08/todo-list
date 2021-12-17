@@ -52,7 +52,7 @@ export function Todos() {
               key={index}
               title={todo?.task}
               check={todo?.completed}
-              handleDeleteTask={() => handleDeleteTask(todo)}
+              handleDeleteTask={() => handleDeleteTask(todo.idFirebase)}
             />
           ))}
         </ul>

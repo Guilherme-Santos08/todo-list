@@ -1,4 +1,4 @@
-import { onValue, push, ref } from "firebase/database";
+import { onValue, push, ref, remove } from "firebase/database";
 import {
   createContext,
   ReactNode,
@@ -22,7 +22,7 @@ type cardContextProps = {
   handleClickAddTask: (testeId: string) => void;
   handleTaskName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCompleteTask: (id: string) => void;
-  handleDeleteTask: (taskName: { task: string }) => void;
+  handleDeleteTask: (idFirebase: string) => void;
   handleAddTaskEnter: (keyDown: any, taskId: string) => void;
   handleCollectionId: (collectionIdFirebase: SetStateAction<string>) => void;
 };
@@ -87,14 +87,13 @@ export function TaskProvider({ children }: props) {
     setCollectionCard(newComplete);
   };
 
-  const handleDeleteTask = (taskName: { task: string }) => {
-    const newDelete = collectionCard.map(collection => {
-      return {
-        ...collection,
-        todos: collection.todos.filter(todo => todo.task !== taskName.task),
-      };
-    });
-    setCollectionCard(newDelete);
+  const handleDeleteTask = async (idFirebase: string) => {
+    await remove(
+      ref(
+        database,
+        `users/${user?.id}/${collectionIdFirebase}/todos/${idFirebase}`
+      )
+    );
   };
 
   const handleAddTaskEnter = (keyDown: any, taskId: string) => {
@@ -108,19 +107,20 @@ export function TaskProvider({ children }: props) {
   };
 
   useEffect(() => {
-    const starCountRef = ref(
-      database,
-      `users/${user?.id}/${collectionIdFirebase}/todos`
-    );
-    onValue(starCountRef, snapshot => {
-      const data = snapshot.val();
-      const messageList = [];
-      for (let idFirebase in data) {
-        messageList.push({ idFirebase, ...data[idFirebase] });
+    return onValue(
+      ref(database, `users/${user?.id}/${collectionIdFirebase}/todos`),
+      snapshot => {
+        const data = snapshot.val();
+        const todoList = [];
+        for (let idFirebase in data) {
+          todoList.push({ idFirebase, ...data[idFirebase] });
+        }
+        setTodoList(todoList);
+      },
+      {
+        onlyOnce: false,
       }
-      setTodoList(messageList);
-      console.log(messageList);
-    });
+    );
   }, [collectionIdFirebase, user?.id]);
 
   return (
