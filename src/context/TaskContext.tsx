@@ -1,6 +1,16 @@
-import { createContext, ReactNode, useState } from "react";
+import { onValue, push, ref } from "firebase/database";
+import {
+  createContext,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useAddCard } from "../hooks/useAddCard";
+import { useAuth } from "../hooks/useAuth";
+import { database } from "../lib/firebase";
+import { TodosProps } from "./AddCardContext";
 
 type props = {
   children: ReactNode;
@@ -8,18 +18,24 @@ type props = {
 
 type cardContextProps = {
   taskName: string;
+  todoList: TodosProps[];
   handleClickAddTask: (testeId: string) => void;
   handleTaskName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCompleteTask: (id: string) => void;
   handleDeleteTask: (taskName: { task: string }) => void;
   handleAddTaskEnter: (keyDown: any, taskId: string) => void;
+  handleCollectionId: (collectionIdFirebase: SetStateAction<string>) => void;
 };
 
 export const TaskContext = createContext({} as cardContextProps);
 
 export function TaskProvider({ children }: props) {
   const [taskName, setTaskName] = useState("");
+  const [todoList, setTodoList] = useState<TodosProps[]>([]);
+  const [collectionIdFirebase, setCollectionIdFirebase] = useState("");
+
   const { setCollectionCard, collectionCard } = useAddCard();
+  const { user } = useAuth();
 
   const handleTaskName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskName(e.target.value);
@@ -29,6 +45,7 @@ export function TaskProvider({ children }: props) {
     if (taskName === "") {
       return;
     }
+
     const newTasks = collectionCard.map(teste => {
       if (teste.id === taskId)
         return {
@@ -44,6 +61,13 @@ export function TaskProvider({ children }: props) {
         };
       return teste;
     });
+
+    push(ref(database, `users/${user?.id}/${taskId}/todos`), {
+      task: taskName,
+      id: uuidv4(),
+      completed: false,
+    });
+
     setCollectionCard(newTasks);
     setTaskName("");
   };
@@ -79,15 +103,37 @@ export function TaskProvider({ children }: props) {
     }
   };
 
+  const handleCollectionId = (collectionIdFirebase: SetStateAction<string>) => {
+    setCollectionIdFirebase(collectionIdFirebase);
+  };
+
+  useEffect(() => {
+    const starCountRef = ref(
+      database,
+      `users/${user?.id}/${collectionIdFirebase}/todos`
+    );
+    onValue(starCountRef, snapshot => {
+      const data = snapshot.val();
+      const messageList = [];
+      for (let idFirebase in data) {
+        messageList.push({ idFirebase, ...data[idFirebase] });
+      }
+      setTodoList(messageList);
+      console.log(messageList);
+    });
+  }, [collectionIdFirebase, user?.id]);
+
   return (
     <TaskContext.Provider
       value={{
         taskName,
+        todoList,
         handleTaskName,
         handleClickAddTask,
         handleCompleteTask,
         handleDeleteTask,
-        handleAddTaskEnter
+        handleAddTaskEnter,
+        handleCollectionId,
       }}
     >
       {children}

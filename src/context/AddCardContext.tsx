@@ -8,7 +8,7 @@ type props = {
   children: ReactNode;
 };
 
-type TodosProps = {
+export type TodosProps = {
   task: string;
   completed: boolean;
   id: string;
@@ -71,7 +71,10 @@ export function AddCardProvider({ children }: props) {
   );
 
   useEffect(() => {
-    window.localStorage.setItem("collection", JSON.stringify(collectionCardFirebase));
+    window.localStorage.setItem(
+      "collection",
+      JSON.stringify(collectionCardFirebase)
+    );
   }, [collectionCardFirebase]);
 
   const showModal = () => {
@@ -118,7 +121,7 @@ export function AddCardProvider({ children }: props) {
       const data = snapshot.val();
       const messageList = [];
       for (let idFirebase in data) {
-        messageList.push({ idFirebase, ...data[idFirebase] });
+        messageList.push({ idFirebase, todos: [], ...data[idFirebase] });
       }
       setCollectionCardFirebase(messageList);
     });

@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-import { useAddCard } from "../../hooks/useAddCard";
 import { useTask } from "../../hooks/useTask";
 
 import { MdKeyboardArrowLeft } from "react-icons/md";
@@ -12,16 +12,16 @@ import { Task } from "../../components/Task";
 import { Container } from "./styles";
 
 export function Todos() {
-  const { collectionFilter } = useAddCard();
   const { handleDeleteTask } = useTask();
+  const { todoList, handleCollectionId } = useTask();
 
   const params = useParams();
   const navigate = useNavigate();
   document.title = `${params.cardName}`;
 
-  const tasks = collectionFilter
-    .filter((id) => id.id === params.id)
-    .map((e) => e.todos)[0];
+  useEffect(() => {
+    return handleCollectionId(`${params.id}`);
+  }, [handleCollectionId, params.id]);
 
   return (
     <>
@@ -42,16 +42,16 @@ export function Todos() {
 
         <div className="task-lenght">
           <span aria-label="Quantidade de tarefas adicionada">
-            Tarefas - {tasks.length}
+            Tarefas - {todoList.length}
           </span>
         </div>
 
         <ul>
-          {tasks.map((todo, index) => (
+          {todoList.map((todo, index) => (
             <Task
               key={index}
-              title={todo.task}
-              check={todo.completed}
+              title={todo?.task}
+              check={todo?.completed}
               handleDeleteTask={() => handleDeleteTask(todo)}
             />
           ))}

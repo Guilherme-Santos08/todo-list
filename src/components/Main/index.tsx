@@ -40,7 +40,7 @@ export function Main() {
         {collectionFilter.map(collection => (
           <Card
             key={collection.id}
-            id={collection.id}
+            id={collection.idFirebase}
             cardName={collection.cardName}
             backgroundColor={collection.cardColors}
             setActive={setActive}
