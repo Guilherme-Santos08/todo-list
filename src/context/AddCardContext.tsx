@@ -15,7 +15,7 @@ export type TodosProps = {
   idFirebase: string;
 };
 
-type collectionCardProps = {
+export type collectionCardProps = {
   cardName: string;
   cardColors: string;
   id: string;
@@ -35,9 +35,8 @@ type cardContextProps = {
   handleClickAddCard: () => void;
   handleClickRemoveCard: (itemName: string) => void;
   collectionFilter: collectionCardProps[];
-  collectionCard: collectionCardProps[];
   collectionCardFirebase: collectionCardProps[];
-  setCollectionCard: any;
+  setCollectionCardFirebase: any;
 };
 
 export const AddCardContext = createContext({} as cardContextProps);
@@ -54,16 +53,13 @@ const getCollectionLocalStorage = () => {
 };
 
 export function AddCardProvider({ children }: props) {
-  const [collectionCard, setCollectionCard] = useState<collectionCardProps[]>(
-    getCollectionLocalStorage() ? getCollectionLocalStorage : []
-  );
   const [showInput, setShowInput] = useState(false);
   const [cardSearch, setCardSearch] = useState("");
   const [cardName, setCardName] = useState("");
   const [cardColor, setCardColor] = useState("#000000");
   const [collectionCardFirebase, setCollectionCardFirebase] = useState<
     collectionCardProps[]
-  >([]);
+  >(getCollectionLocalStorage() ? getCollectionLocalStorage : []);
 
   const { user } = useAuth();
 
@@ -137,8 +133,7 @@ export function AddCardProvider({ children }: props) {
         cardColor,
         cardSearch,
         collectionFilter,
-        collectionCard,
-        setCollectionCard,
+        setCollectionCardFirebase,
         handleCardName,
         handleCardColor,
         handleClickAddCard,

@@ -50,8 +50,9 @@ export function Todos() {
           {todoList.map((todo, index) => (
             <Task
               key={index}
-              title={todo?.task}
-              check={todo?.completed}
+              title={todo.task}
+              check={todo.completed}
+              id={todo.idFirebase}
               handleDeleteTask={() => handleDeleteTask(todo.idFirebase)}
             />
           ))}

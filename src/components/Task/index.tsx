@@ -10,7 +10,7 @@ type props = {
   handleDeleteTask: () => void;
 };
 
-export function Task({ title, check, handleDeleteTask }: props) {
+export function Task({ title, check, handleDeleteTask, id }: props) {
   const { handleCompleteTask } = useTask();
 
   return (
@@ -21,7 +21,7 @@ export function Task({ title, check, handleDeleteTask }: props) {
             <h3 title={title}>{title}</h3>
             <input
               type="checkbox"
-              onChange={() => handleCompleteTask(title)}
+              onChange={() => handleCompleteTask(id, check)}
               checked={check}
             />
             <span className="checkmark"></span>

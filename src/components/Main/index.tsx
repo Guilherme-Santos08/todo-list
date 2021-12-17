@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useState } from "react";
+import { collectionCardProps } from "../../context/AddCardContext";
 import { useAddCard } from "../../hooks/useAddCard";
 
 import { Card } from "../Card";
@@ -9,12 +10,20 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
-  const {
-    showModal,
-    collectionFilter,
-    handleClickRemoveCard,
-  } = useAddCard();
+  const { showModal, collectionFilter, handleClickRemoveCard } = useAddCard();
   const [active, setActive] = useState(false);
+
+  const todosLength = (collection: { todos: {} }) => {
+    return Object.entries(collection.todos ?? 0).map(e => e).length;
+  };
+
+  const todoCompleteLength = (collection: collectionCardProps) => {
+    // Object.entries(collection.todos).filter(([key, todo]) => todo.completed).length;
+    const data = Object.values(collection.todos).filter(
+      todo => todo.completed
+    ).length;
+    return data;
+  };
 
   return (
     <Container>
@@ -45,9 +54,11 @@ export function Main() {
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}
-            handleClickRemoveCard={() => handleClickRemoveCard(collection.idFirebase)}
-            todosLength={12}
-            todoCompleteLength={12}
+            handleClickRemoveCard={() =>
+              handleClickRemoveCard(collection.idFirebase)
+            }
+            todosLength={todosLength(collection)}
+            todoCompleteLength={todoCompleteLength(collection)}
           />
         ))}
         <CardMore showModal={showModal} />

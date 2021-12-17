@@ -1,4 +1,4 @@
-import { onValue, push, ref, remove } from "firebase/database";
+import { onValue, push, ref, remove, update } from "firebase/database";
 import {
   createContext,
   ReactNode,
@@ -21,7 +21,10 @@ type cardContextProps = {
   todoList: TodosProps[];
   handleClickAddTask: (testeId: string) => void;
   handleTaskName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCompleteTask: (id: string) => void;
+  handleCompleteTask: (
+    id: string | undefined,
+    check: boolean | undefined
+  ) => void;
   handleDeleteTask: (idFirebase: string) => void;
   handleAddTaskEnter: (keyDown: any, taskId: string) => void;
   handleCollectionId: (collectionIdFirebase: SetStateAction<string>) => void;
@@ -34,7 +37,7 @@ export function TaskProvider({ children }: props) {
   const [todoList, setTodoList] = useState<TodosProps[]>([]);
   const [collectionIdFirebase, setCollectionIdFirebase] = useState("");
 
-  const { setCollectionCard, collectionCard } = useAddCard();
+  const { setCollectionCardFirebase } = useAddCard();
   const { user } = useAuth();
 
   const handleTaskName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,45 +49,25 @@ export function TaskProvider({ children }: props) {
       return;
     }
 
-    const newTasks = collectionCard.map(teste => {
-      if (teste.id === taskId)
-        return {
-          ...teste,
-          todos: [
-            ...teste.todos,
-            {
-              task: taskName,
-              id: uuidv4(),
-              completed: false,
-            },
-          ],
-        };
-      return teste;
-    });
-
     push(ref(database, `users/${user?.id}/${taskId}/todos`), {
       task: taskName,
       id: uuidv4(),
       completed: false,
     });
 
-    setCollectionCard(newTasks);
     setTaskName("");
   };
 
-  const handleCompleteTask = (taskId: string) => {
-    const newComplete = collectionCard.map(collection => {
-      return {
-        ...collection,
-        todos: collection.todos.map(todo => {
-          if (todo.task === taskId) {
-            return { ...todo, completed: !todo.completed };
-          }
-          return todo;
-        }),
-      };
-    });
-    setCollectionCard(newComplete);
+  const handleCompleteTask = async (
+    id: string | undefined,
+    check: boolean | undefined
+  ) => {
+    await update(
+      ref(database, `users/${user?.id}/${collectionIdFirebase}/todos/${id}`),
+      {
+        completed: !check,
+      }
+    );
   };
 
   const handleDeleteTask = async (idFirebase: string) => {
@@ -121,7 +104,7 @@ export function TaskProvider({ children }: props) {
         onlyOnce: false,
       }
     );
-  }, [collectionIdFirebase, user?.id]);
+  }, [collectionIdFirebase, setCollectionCardFirebase, user?.id]);
 
   return (
     <TaskContext.Provider
