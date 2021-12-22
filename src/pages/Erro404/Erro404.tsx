@@ -12,7 +12,7 @@ export function Erro404() {
         </h1>
         <Link to="/home">Clique para voltar para casa</Link>
       </div>
-      <img src={pageNotFound} alt="" />
+      <img src={pageNotFound} alt="Página não encontrada" />
     </Container>
   );
 }
