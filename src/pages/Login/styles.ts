@@ -1,150 +1,123 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  padding: 1rem;
-  width: 100vw;
-  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 5.75rem;
+  padding: 0 1.5rem;
 
-  > div {
-    position: relative;
+  .welcome {
+    width: 34%;
+    h1 {
+      font-size: 2.5rem;
+    }
+    p {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1.75rem;
+    }
+    span {
+      color: ${props => props.theme.colors.backgroundThird};
+    }
+  }
 
-    max-width: 600px;
-    height: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-
-    background-color: #fff;
-    border-radius: 18px;
-
+  .login {
     display: flex;
     flex-direction: column;
-    align-items: center;
 
-    h2 {
-      margin: 2rem 0;
-      color: #495057;
-    }
+    max-width: 400px;
+    width: 100%;
+    background-color: ${props => props.theme.colors.backgroundSecondary};
+    padding: 3.5rem 2.5rem;
 
-    .illustration {
-      max-width: 100px;
+    border-radius: 8px;
 
-      img {
-        width: 100%;
-      }
-    }
-
-    .or {
+    span {
       position: relative;
-      color: #adb5bd;
-      margin: 1rem 0;
-      &::after {
-        content: "";
-        display: block;
-        width: 110px;
-        height: 1px;
-        background-color: #ced4da;
-        position: absolute;
-        top: 10px;
-        left: 22px;
-      }
+      font-size: 12px;
+      color: rgb(135, 134, 139);
+      margin: 1rem 0px;
+      text-align: center;
+
       &::before {
         content: "";
-        display: block;
-        width: 110px;
-        height: 1px;
-        background-color: #ced4da;
         position: absolute;
-        top: 10px;
-        right: 22px;
+        right: 0;
+        top: 50%;
+        width: calc(50% - 25px);
+        height: 1px;
+        background: rgb(40, 39, 47);
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: calc(50% - 25px);
+        height: 1px;
+        background: rgb(40, 39, 47);
       }
     }
 
-    form {
-      width: 270px;
-
-      .input {
-        display: flex;
-        flex-direction: column;
-        input {
-          font-size: 1rem;
-
-          height: 34px;
-          width: 100%;
-          padding: 0 0.4rem;
-
-          border: 1px solid #6c757d;
-          border-radius: 4px;
-          outline: none;
-
-          &:focus {
-            border: 1px solid #562fe2;
-          }
-        }
-        label {
-          font-size: 0.9rem;
-          color: #7b88a3;
-          margin-bottom: 0.2rem;
-        }
-      }
-
-      .input + .input {
-        margin-top: 1rem;
-      }
-
-      button {
-        color: #fff;
-        font-weight: bold;
-
-        width: 100%;
-        height: 38px;
-        background-color: #562fe2;
-        margin-top: 1rem;
-
-        border-radius: 8px;
-        border: none;
-        transition: opacity 0.3s ease;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.9;
-        }
-      }
-    }
-
-    .btn-google {
-      font-size: 0.9rem;
-
-      width: 270px;
-      height: 40px;
-      background-color: #f9f9ff;
-
+    button {
       display: flex;
       align-items: center;
       justify-content: center;
 
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+
+      background-color: rgb(41, 41, 46);
+      color: #fff;
+
+      height: 50px;
+
       border-radius: 8px;
-      border: 1px solid #eeeefe;
+      border: none;
       cursor: pointer;
-      transition: opacity 0.2s ease;
+      transition: background 0.2s ease;
 
       &:hover {
-        opacity: 0.9;
+        background-color: #1259b9;
       }
 
       span {
-        margin-right: 0.5rem;
+        margin-right: 1rem;
       }
     }
 
-    p {
-      position: absolute;
-      bottom: .8rem;
-
-      font-size: 0.9rem;
-      color: #495057;
-      a {
-        color: #562fe2;
-        font-weight: bold;
+    .login-github {
+      span {
+        color: ${props => props.theme.colors.backgroundThird};
+        transition: color 0.2s ease;
       }
+      &:hover {
+        span {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+    
+    .welcome {
+      width: 42%;
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  @media (max-width: 460px) {
+    .welcome {
+      width: 100%;
     }
   }
 `;
