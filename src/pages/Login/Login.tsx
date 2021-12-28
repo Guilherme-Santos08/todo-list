@@ -3,11 +3,12 @@ import { useAuth } from "../../hooks/useAuth";
 
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
+import { ToastContainer } from 'react-toastify';
 
 import { Container } from "./styles";
 
 export function Login() {
-  const { signInGoogle, isLogged } = useAuth();
+  const { signInGoogle, isLogged, signInGithub } = useAuth();
   const navigate = useNavigate();
 
   if (isLogged) {
@@ -35,13 +36,14 @@ export function Login() {
 
         <span>ou</span>
 
-        <button className="login-github">
+        <button className="login-github" onClick={signInGithub}>
           <span>
             <AiFillGithub size="22" />
           </span>
           Github
         </button>
       </div>
+      <ToastContainer />
     </Container>
   );
 }

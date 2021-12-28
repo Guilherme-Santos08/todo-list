@@ -1,10 +1,15 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { authentication } from "../lib/firebase";
 import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
+  GithubAuthProvider,
 } from "firebase/auth";
 
 type props = {
@@ -19,6 +24,7 @@ type User = {
 
 type authContextProps = {
   signInGoogle: () => void;
+  signInGithub: () => void;
   signout: () => void;
   user: User | null;
   isLogged: boolean;
@@ -40,6 +46,8 @@ const getUserLocalStorage = () => {
 export function AuthProvider({ children }: props) {
   const [user, setUser] = useState<User | null>(getUserLocalStorage);
   const [isLogged, setIsLogged] = useState(false);
+  const notify = () =>
+    toast.error("Email já cadastrado, Tente logar com outro provedor!");
 
   useEffect(() => {
     window.localStorage.setItem("user", JSON.stringify(user));
@@ -73,7 +81,35 @@ export function AuthProvider({ children }: props) {
           avatar: photoURL,
         });
       }
-    } catch {
+    } catch (error: any) {
+      if (error.code === "auth/account-exists-with-different-credential") {
+        return notify();
+      }
+      return;
+    }
+  };
+
+  const signInGithub = async () => {
+    try {
+      const provider = new GithubAuthProvider();
+      const result = await signInWithPopup(authentication, provider);
+      if (result.user) {
+        const { displayName, photoURL, uid } = result.user;
+
+        if (!displayName || !photoURL) {
+          throw new Error("Missing information from Github Account.");
+        }
+
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+        });
+      }
+    } catch (error: any) {
+      if (error.code === "auth/account-exists-with-different-credential") {
+        return notify();
+      }
       return;
     }
   };
@@ -88,7 +124,15 @@ export function AuthProvider({ children }: props) {
   };
 
   return (
-    <AuthContext.Provider value={{ signInGoogle, user, signout, isLogged }}>
+    <AuthContext.Provider
+      value={{
+        signInGoogle,
+        user,
+        signout,
+        isLogged,
+        signInGithub,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -9,6 +9,20 @@ export default createGlobalStyle`
     text-decoration: none;
   }
 
+  .Toastify__toast--error {
+    background: #dd5554;
+    color: #fff;
+  }
+  .Toastify__toast--error svg{
+    fill: #fff
+  }
+  .Toastify__close-button {
+    color: #fff;
+  }
+  .Toastify__progress-bar--error {
+    background: #fff;
+  }
+
   body {
     font-size: 16px;
     font-family: "Roboto", sans-serif;

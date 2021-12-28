@@ -58,7 +58,14 @@ export function Header({ search = true }: props) {
           )}
           <li>
             <button onClick={handleShowConfig} className="btn__show-info">
-              <img src={user?.avatar} alt={`Foto de perfil de ${user?.name}`} />
+              {user?.avatar || user?.name ? (
+                <img
+                  src={user?.avatar}
+                  alt={`Foto de perfil de ${user?.name}`}
+                />
+              ) : (
+                <span>Clique para deslogar</span>
+              )}
             </button>
             {showConfig ? (
               <ModalInfo handleShowConfig={handleShowConfig} />
