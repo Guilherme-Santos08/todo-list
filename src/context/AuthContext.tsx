@@ -3,14 +3,16 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { authentication } from "../lib/firebase";
+import { authentication, database } from "../lib/firebase";
 import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
   GithubAuthProvider,
+  deleteUser,
 } from "firebase/auth";
+import { ref, remove } from "firebase/database";
 
 type props = {
   children: ReactNode;
@@ -25,6 +27,7 @@ type User = {
 type authContextProps = {
   signInGoogle: () => void;
   signInGithub: () => void;
+  deleteUserFirebase: () => void;
   signout: () => void;
   user: User | null;
   isLogged: boolean;
@@ -46,12 +49,26 @@ const getUserLocalStorage = () => {
 export function AuthProvider({ children }: props) {
   const [user, setUser] = useState<User | null>(getUserLocalStorage);
   const [isLogged, setIsLogged] = useState(false);
-  const notify = () =>
+  const notificationEmailError = () =>
     toast.error("Email já cadastrado, Tente logar com outro provedor!");
+  const [notificationDeleteUser, setNotificationDeleteUser] = useState(false);
 
   useEffect(() => {
     window.localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
+
+  useEffect(() => {
+    if (notificationDeleteUser) {
+      const resolveAfter3Sec = new Promise(resolve =>
+        setTimeout(resolve, 3000)
+      );
+      toast.promise(resolveAfter3Sec, {
+        pending: "Deletando Usuário",
+        success: "Usuário Deletedo 👌",
+        error: "Promise rejected 🤯",
+      });
+    }
+  }, [notificationDeleteUser]);
 
   useEffect(() => {
     onAuthStateChanged(authentication, user => {
@@ -83,7 +100,7 @@ export function AuthProvider({ children }: props) {
       }
     } catch (error: any) {
       if (error.code === "auth/account-exists-with-different-credential") {
-        return notify();
+        return notificationEmailError();
       }
       return;
     }
@@ -108,7 +125,7 @@ export function AuthProvider({ children }: props) {
       }
     } catch (error: any) {
       if (error.code === "auth/account-exists-with-different-credential") {
-        return notify();
+        return notificationEmailError();
       }
       return;
     }
@@ -123,6 +140,21 @@ export function AuthProvider({ children }: props) {
     }
   };
 
+  const deleteUserFirebase = async () => {
+    const user = authentication.currentUser;
+    try {
+      if (user) {
+        await deleteUser(user);
+        await remove(ref(database, `users/${user?.uid}`));
+        signout();
+        setNotificationDeleteUser(true);
+        setNotificationDeleteUser(false);
+      }
+    } catch {
+      return;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -131,6 +163,7 @@ export function AuthProvider({ children }: props) {
         signout,
         isLogged,
         signInGithub,
+        deleteUserFirebase,
       }}
     >
       {children}

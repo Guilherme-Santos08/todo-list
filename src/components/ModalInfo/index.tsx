@@ -1,3 +1,6 @@
+import { ImExit } from "react-icons/im";
+import { AiFillDelete } from "react-icons/ai";
+
 import { useAuth } from "../../hooks/useAuth";
 import { Container } from "./styles";
 
@@ -6,7 +9,7 @@ type props = {
 };
 
 export function ModalInfo({ handleShowConfig }: props) {
-  const { signout } = useAuth();
+  const { signout, deleteUserFirebase } = useAuth();
 
   const handleSignout = () => {
     signout();
@@ -14,8 +17,19 @@ export function ModalInfo({ handleShowConfig }: props) {
 
   return (
     <Container>
-      <div className="signout">
-        <button onClick={handleSignout}>Sair</button>
+      <div className="options">
+        <button onClick={handleSignout}>
+          <span>Sair</span>
+          <div>
+            <ImExit />
+          </div>
+        </button>
+        <button className="delete-accont" onClick={deleteUserFirebase}>
+          <span>Deletar conta</span>
+          <div>
+            <AiFillDelete />
+          </div>
+        </button>
       </div>
       <div className={`overlay`} onClick={handleShowConfig}>
         <div className="overlay-content"></div>
