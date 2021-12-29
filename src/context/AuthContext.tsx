@@ -29,6 +29,11 @@ type authContextProps = {
   signInGithub: () => void;
   deleteUserFirebase: () => void;
   signout: () => void;
+  handleClickToOpenOutputModal: () => void;
+  handleClickToOpenModalDeleteUser: () => void;
+  modalExitOrDelete: boolean;
+  handleCloseModal: () => void;
+  modalOpenOrClose: boolean;
   user: User | null;
   isLogged: boolean;
 };
@@ -49,9 +54,11 @@ const getUserLocalStorage = () => {
 export function AuthProvider({ children }: props) {
   const [user, setUser] = useState<User | null>(getUserLocalStorage);
   const [isLogged, setIsLogged] = useState(false);
+  const [modalExitOrDelete, setModalExitOrDelete] = useState(false);
+  const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
+  const [notificationDeleteUser, setNotificationDeleteUser] = useState(false);
   const notificationEmailError = () =>
     toast.error("Email já cadastrado, Tente logar com outro provedor!");
-  const [notificationDeleteUser, setNotificationDeleteUser] = useState(false);
 
   useEffect(() => {
     window.localStorage.setItem("user", JSON.stringify(user));
@@ -155,6 +162,20 @@ export function AuthProvider({ children }: props) {
     }
   };
 
+  const handleClickToOpenOutputModal = () => {
+    setModalOpenOrClose(true);
+    setModalExitOrDelete(false);
+  };
+
+  const handleClickToOpenModalDeleteUser = () => {
+    setModalOpenOrClose(true);
+    setModalExitOrDelete(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpenOrClose(false);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -164,6 +185,11 @@ export function AuthProvider({ children }: props) {
         isLogged,
         signInGithub,
         deleteUserFirebase,
+        handleClickToOpenOutputModal,
+        handleClickToOpenModalDeleteUser,
+        modalExitOrDelete,
+        handleCloseModal,
+        modalOpenOrClose,
       }}
     >
       {children}

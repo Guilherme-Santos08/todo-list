@@ -9,22 +9,18 @@ type props = {
 };
 
 export function ModalInfo({ handleShowConfig }: props) {
-  const { signout, deleteUserFirebase } = useAuth();
-
-  const handleSignout = () => {
-    signout();
-  };
+  const { handleClickToOpenModalDeleteUser, handleClickToOpenOutputModal } = useAuth();
 
   return (
     <Container>
       <div className="options">
-        <button onClick={handleSignout}>
+        <button onClick={handleClickToOpenModalDeleteUser}>
           <span>Sair</span>
           <div>
             <ImExit />
           </div>
         </button>
-        <button className="delete-accont" onClick={deleteUserFirebase}>
+        <button className="delete-accont" onClick={handleClickToOpenOutputModal}>
           <span>Deletar conta</span>
           <div>
             <AiFillDelete />

@@ -23,6 +23,11 @@ export default createGlobalStyle`
     background: #fff;
   }
 
+  button {
+    border: 0;
+    outline: none;
+  }
+
   body {
     font-size: 16px;
     font-family: "Roboto", sans-serif;
