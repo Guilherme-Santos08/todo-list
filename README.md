@@ -16,6 +16,7 @@ Esse projeto é basicamente um todo-list, mas você vai poder criar diversas col
 ## 🚀 Tecnologias
 * ReactJs
 * TypeScript
+* Firebase
 * Styled-Components
 * React-Router V6
 
