@@ -13,11 +13,11 @@ export function ModalInput() {
     handleClickAddCard,
   } = useAddCard();
 
-  const showModalTernario = showInput ? "show-modal" : "";
+  const showInputModal = showInput ? "show-modal" : "";
 
   return (
     <Container>
-      <div className={`modal ${showModalTernario}`}>
+      <div className={`modal ${showInputModal}`}>
         <div className="modal__input">
           <input
             type="text"
@@ -51,7 +51,7 @@ export function ModalInput() {
         </div>
       </div>
 
-      <div className={`overlay ${showModalTernario}`} onClick={showModal}>
+      <div className={`overlay ${showInputModal}`} onClick={showModal}>
         <div className="overlay-content"></div>
       </div>
     </Container>

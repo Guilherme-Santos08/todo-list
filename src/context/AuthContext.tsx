@@ -27,13 +27,17 @@ type User = {
 type authContextProps = {
   signInGoogle: () => void;
   signInGithub: () => void;
-  deleteUserFirebase: () => void;
   signout: () => void;
+
   handleClickToOpenOutputModal: () => void;
   handleClickToOpenModalDeleteUser: () => void;
-  modalExitOrDelete: boolean;
+
   handleCloseModal: () => void;
+  deleteUserFirebase: () => void;
+
+  modalExitOrDelete: boolean;
   modalOpenOrClose: boolean;
+
   user: User | null;
   isLogged: boolean;
 };
@@ -54,9 +58,11 @@ const getUserLocalStorage = () => {
 export function AuthProvider({ children }: props) {
   const [user, setUser] = useState<User | null>(getUserLocalStorage);
   const [isLogged, setIsLogged] = useState(false);
+
   const [modalExitOrDelete, setModalExitOrDelete] = useState(false);
   const [modalOpenOrClose, setModalOpenOrClose] = useState(false);
   const [notificationDeleteUser, setNotificationDeleteUser] = useState(false);
+
   const notificationEmailError = () =>
     toast.error("Email já cadastrado, Tente logar com outro provedor!");
 
@@ -79,11 +85,7 @@ export function AuthProvider({ children }: props) {
 
   useEffect(() => {
     onAuthStateChanged(authentication, user => {
-      if (user) {
-        setIsLogged(true);
-      } else {
-        setIsLogged(false);
-      }
+      return user ? setIsLogged(true) : setIsLogged(false);
     });
   }, []);
 
@@ -95,9 +97,8 @@ export function AuthProvider({ children }: props) {
       if (result.user) {
         const { displayName, photoURL, uid } = result.user;
 
-        if (!displayName || !photoURL) {
+        if (!displayName || !photoURL)
           throw new Error("Missing information from Google Account.");
-        }
 
         setUser({
           id: uid,
@@ -106,9 +107,8 @@ export function AuthProvider({ children }: props) {
         });
       }
     } catch (error: any) {
-      if (error.code === "auth/account-exists-with-different-credential") {
+      if (error.code === "auth/account-exists-with-different-credential")
         return notificationEmailError();
-      }
       return;
     }
   };
@@ -117,12 +117,12 @@ export function AuthProvider({ children }: props) {
     try {
       const provider = new GithubAuthProvider();
       const result = await signInWithPopup(authentication, provider);
+
       if (result.user) {
         const { displayName, photoURL, uid } = result.user;
 
-        if (!displayName || !photoURL) {
+        if (!displayName || !photoURL)
           throw new Error("Missing information from Github Account.");
-        }
 
         setUser({
           id: uid,
@@ -131,9 +131,8 @@ export function AuthProvider({ children }: props) {
         });
       }
     } catch (error: any) {
-      if (error.code === "auth/account-exists-with-different-credential") {
+      if (error.code === "auth/account-exists-with-different-credential")
         return notificationEmailError();
-      }
       return;
     }
   };
@@ -172,9 +171,7 @@ export function AuthProvider({ children }: props) {
     setModalExitOrDelete(true);
   };
 
-  const handleCloseModal = () => {
-    setModalOpenOrClose(false);
-  };
+  const handleCloseModal = () => setModalOpenOrClose(false);
 
   return (
     <AuthContext.Provider

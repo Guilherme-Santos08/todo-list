@@ -4,9 +4,9 @@ import { Header } from "../components/Header";
 import { useAuth } from "../hooks/useAuth";
 
 export function Home() {
-  document.title = "Todo List";
-
   const { user } = useAuth();
+
+  document.title = "Todo List";
 
   return (
     <>
@@ -18,7 +18,7 @@ export function Home() {
           Ola, agradeço por você está aqui, <br />
           mas infelizmente precisamos que as informações da sua conta esteja
           completa. <br />
-          Verifique se sua conta tem foto e nome preenchidos corretamente.{" "}
+          Verifique se sua conta tem foto e nome preenchidos corretamente.
           <br />
           Aguardo sua volta :)
         </p>

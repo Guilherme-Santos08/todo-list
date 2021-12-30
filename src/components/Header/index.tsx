@@ -13,13 +13,12 @@ type props = {
 };
 
 export function Header({ search = true }: props) {
-  const { showModal, cardSearch, handleCardSearch } = useAddCard();
   const { user } = useAuth();
+  const { showModal, cardSearch, handleCardSearch } = useAddCard();
+  
   const [showConfig, setShowConfig] = useState(false);
 
-  const handleShowConfig = () => {
-    setShowConfig(!showConfig);
-  };
+  const handleShowConfig = () => setShowConfig(!showConfig);
 
   return (
     <Container>

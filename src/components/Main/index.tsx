@@ -13,9 +13,8 @@ export function Main() {
   const { showModal, collectionFilter, handleClickRemoveCard } = useAddCard();
   const [active, setActive] = useState(false);
 
-  const todosLength = (collection: { todos: {} }) => {
-    return Object.entries(collection.todos ?? 0).map(e => e).length;
-  };
+  const todosLength = (collection: { todos: {} }) =>
+    Object.entries(collection.todos ?? 0).map(e => e).length;
 
   const todoCompleteLength = (collection: collectionCardProps) => {
     // Object.entries(collection.todos).filter(([key, todo]) => todo.completed).length;

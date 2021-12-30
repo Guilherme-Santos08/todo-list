@@ -1,7 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { database } from "../lib/firebase";
+
 import { ref, onValue, push, remove } from "firebase/database";
+import { database } from "../lib/firebase";
+
 import { useAuth } from "../hooks/useAuth";
 
 type props = {
@@ -26,14 +28,17 @@ export type collectionCardProps = {
 type cardContextProps = {
   showInput: boolean;
   showModal: () => void;
+
   cardName: string;
   cardColor: string;
   cardSearch: string;
+
   handleCardName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCardColor: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCardSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickAddCard: () => void;
   handleClickRemoveCard: (itemName: string) => void;
+
   collectionFilter: collectionCardProps[];
   collectionCardFirebase: collectionCardProps[];
   setCollectionCardFirebase: any;
@@ -53,15 +58,16 @@ const getCollectionLocalStorage = () => {
 };
 
 export function AddCardProvider({ children }: props) {
+  const { user } = useAuth();
+
   const [showInput, setShowInput] = useState(false);
   const [cardSearch, setCardSearch] = useState("");
   const [cardName, setCardName] = useState("");
   const [cardColor, setCardColor] = useState("#000000");
+
   const [collectionCardFirebase, setCollectionCardFirebase] = useState<
     collectionCardProps[]
   >(getCollectionLocalStorage() ? getCollectionLocalStorage : []);
-
-  const { user } = useAuth();
 
   const collectionFilter = collectionCardFirebase.filter(collection =>
     collection.cardName.toLowerCase().includes(cardSearch.toLowerCase())
@@ -74,26 +80,31 @@ export function AddCardProvider({ children }: props) {
     );
   }, [collectionCardFirebase]);
 
-  const showModal = () => {
-    setShowInput(!showInput);
-  };
+  useEffect(() => {
+    const starCountRef = ref(database, "users/" + user?.id);
+    onValue(starCountRef, snapshot => {
+      const data = snapshot.val();
+      const messageList = [];
+      for (let idFirebase in data) {
+        messageList.push({ idFirebase, todos: [], ...data[idFirebase] });
+      }
+      setCollectionCardFirebase(messageList);
+    });
+  }, [user?.id]);
 
-  const handleCardSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const showModal = () => setShowInput(!showInput);
+
+  const handleCardSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCardSearch(e.target.value);
-  };
 
-  const handleCardName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCardName = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCardName(e.target.value);
-  };
 
-  const handleCardColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCardColor = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCardColor(e.target.value);
-  };
 
   const handleClickAddCard = () => {
-    if (cardName === "" || cardColor === "") {
-      return;
-    }
+    if (cardName === "" || cardColor === "") return;
 
     push(ref(database, "users/" + user?.id), {
       cardName: cardName,
@@ -106,23 +117,13 @@ export function AddCardProvider({ children }: props) {
     setCardName("");
   };
 
-  const handleClickRemoveCard = (itemName: string) => {
-    remove(ref(database, `users/${user?.id}/${itemName}`)).then(() =>
-      console.log("Cartão excluido")
-    );
+  const handleClickRemoveCard = async (itemName: string) => {
+    try {
+      await remove(ref(database, `users/${user?.id}/${itemName}`));
+    } catch {
+      return;
+    }
   };
-
-  useEffect(() => {
-    const starCountRef = ref(database, "users/" + user?.id);
-    onValue(starCountRef, snapshot => {
-      const data = snapshot.val();
-      const messageList = [];
-      for (let idFirebase in data) {
-        messageList.push({ idFirebase, todos: [], ...data[idFirebase] });
-      }
-      setCollectionCardFirebase(messageList);
-    });
-  }, [user?.id]);
 
   return (
     <AddCardContext.Provider

@@ -8,7 +8,7 @@ import { Todos } from "../pages/Todos/Todos";
 
 export function RoutesApp() {
   const PrivateRoute = ({ children, redirectTo }) => {
-    const { user, isLogged } = useAuth()
+    const { user, isLogged } = useAuth();
 
     return user || isLogged ? children : <Navigate to={redirectTo} />;
   };
@@ -33,7 +33,7 @@ export function RoutesApp() {
           }
         />
         <Route path="/" element={<Login />} />
-        <Route path="*" element={<Erro404/>} />
+        <Route path="*" element={<Erro404 />} />
       </Routes>
     </>
   );

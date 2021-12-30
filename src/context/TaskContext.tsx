@@ -1,4 +1,3 @@
-import { onValue, push, ref, remove, update } from "firebase/database";
 import {
   createContext,
   ReactNode,
@@ -7,9 +6,12 @@ import {
   useState,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useAddCard } from "../hooks/useAddCard";
-import { useAuth } from "../hooks/useAuth";
+
+import { onValue, push, ref, remove, update } from "firebase/database";
 import { database } from "../lib/firebase";
+
+import { useAuth } from "../hooks/useAuth";
+import { useAddCard } from "../hooks/useAddCard";
 import { TodosProps } from "./AddCardContext";
 
 type props = {
@@ -19,6 +21,7 @@ type props = {
 type cardContextProps = {
   taskName: string;
   todoList: TodosProps[];
+
   handleClickAddTask: (testeId: string) => void;
   handleTaskName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCompleteTask: (
@@ -33,21 +36,18 @@ type cardContextProps = {
 export const TaskContext = createContext({} as cardContextProps);
 
 export function TaskProvider({ children }: props) {
+  const { user } = useAuth();
+  const { setCollectionCardFirebase } = useAddCard();
+
   const [taskName, setTaskName] = useState("");
   const [todoList, setTodoList] = useState<TodosProps[]>([]);
   const [collectionIdFirebase, setCollectionIdFirebase] = useState("");
 
-  const { setCollectionCardFirebase } = useAddCard();
-  const { user } = useAuth();
-
-  const handleTaskName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTaskName = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTaskName(e.target.value);
-  };
 
   const handleClickAddTask = (taskId: string) => {
-    if (taskName === "") {
-      return;
-    }
+    if (taskName === "") return;
 
     push(ref(database, `users/${user?.id}/${taskId}/todos`), {
       task: taskName,
@@ -56,6 +56,10 @@ export function TaskProvider({ children }: props) {
     });
 
     setTaskName("");
+  };
+
+  const handleAddTaskEnter = (keyDown: any, taskId: string) => {
+    if (keyDown.keyCode === 13) return handleClickAddTask(taskId);
   };
 
   const handleCompleteTask = async (
@@ -79,15 +83,8 @@ export function TaskProvider({ children }: props) {
     );
   };
 
-  const handleAddTaskEnter = (keyDown: any, taskId: string) => {
-    if (keyDown.keyCode === 13) {
-      handleClickAddTask(taskId);
-    }
-  };
-
-  const handleCollectionId = (collectionIdFirebase: SetStateAction<string>) => {
+  const handleCollectionId = (collectionIdFirebase: SetStateAction<string>) =>
     setCollectionIdFirebase(collectionIdFirebase);
-  };
 
   useEffect(() => {
     return onValue(

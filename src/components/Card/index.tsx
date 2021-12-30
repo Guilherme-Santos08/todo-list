@@ -5,11 +5,13 @@ import { Container } from "./styles";
 
 type props = {
   cardName: string;
-  backgroundColor: string;
   id: string;
+  backgroundColor: string;
   active: boolean | string;
+
   setActive: (arg0: any) => void;
   handleClickRemoveCard: () => void;
+
   todosLength: number;
   todoCompleteLength: number;
 };
@@ -25,11 +27,7 @@ export function Card({
   todoCompleteLength,
 }: props) {
   const handleShowDelete = () => {
-    if (active === id) {
-      setActive(null);
-    } else {
-      setActive(id);
-    }
+    return active === id ? setActive(null) : setActive(id);
   };
 
   return (

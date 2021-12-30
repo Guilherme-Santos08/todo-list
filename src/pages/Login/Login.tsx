@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 import { Container } from "./styles";
 
@@ -11,9 +11,7 @@ export function Login() {
   const { signInGoogle, isLogged, signInGithub } = useAuth();
   const navigate = useNavigate();
 
-  if (isLogged) {
-    navigate("/home");
-  }
+  if (isLogged) return navigate("/home");
 
   return (
     <Container>
