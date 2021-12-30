@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import SimpleCrypto from "simple-crypto-js";
 
 import { ref, onValue, push, remove } from "firebase/database";
 import { database } from "../lib/firebase";
@@ -73,6 +74,9 @@ export function AddCardProvider({ children }: props) {
     collection.cardName.toLowerCase().includes(cardSearch.toLowerCase())
   );
 
+  const secretKey = "some-unique-key";
+  const simpleCrypto = new SimpleCrypto(secretKey);
+
   useEffect(() => {
     window.localStorage.setItem(
       "collection",
@@ -105,9 +109,11 @@ export function AddCardProvider({ children }: props) {
 
   const handleClickAddCard = () => {
     if (cardName === "" || cardColor === "") return;
+    const plainText = cardName;
+    const cipherText = simpleCrypto.encrypt(plainText);
 
     push(ref(database, "users/" + user?.id), {
-      cardName: cardName,
+      cardName: cipherText,
       cardColors: cardColor,
       id: uuidv4(),
       todos: [],

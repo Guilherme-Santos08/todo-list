@@ -9,11 +9,11 @@ export const Container = styled.main`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 
     span {
       font-weight: bold;
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       /* color: ${props => props.theme.colors.backgroundSecondary}; */
       color: #ffffe2;
       cursor: pointer;

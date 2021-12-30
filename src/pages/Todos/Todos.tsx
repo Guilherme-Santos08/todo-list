@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
+import SimpleCrypto from "simple-crypto-js";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
 import { useTask } from "../../hooks/useTask";
@@ -19,6 +20,11 @@ export function Todos() {
   const params = useParams();
   const navigate = useNavigate();
   document.title = `${params.cardName}`;
+
+  const secretKey = "some-unique-key";
+  const simpleCrypto = new SimpleCrypto(secretKey);
+
+  const decryptTask = (todo: string) => simpleCrypto.decrypt(todo).toString();
 
   useEffect(() => {
     return handleCollectionId(`${params.id}`);
@@ -51,7 +57,7 @@ export function Todos() {
           {todoList.map((todo, index) => (
             <Task
               key={index}
-              title={todo.task}
+              title={decryptTask(todo.task)}
               check={todo.completed}
               id={todo.idFirebase}
               handleDeleteTask={() => handleDeleteTask(todo.idFirebase)}

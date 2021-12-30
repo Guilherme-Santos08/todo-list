@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useState } from "react";
+import SimpleCrypto from "simple-crypto-js";
+
 import { collectionCardProps } from "../../context/AddCardContext";
 import { useAddCard } from "../../hooks/useAddCard";
 
@@ -23,6 +24,12 @@ export function Main() {
     ).length;
     return data;
   };
+
+  const decryptCard = (cardName: string) =>
+    simpleCrypto.decrypt(cardName).toString();
+
+  const secretKey = "some-unique-key";
+  const simpleCrypto = new SimpleCrypto(secretKey);
 
   return (
     <Container>
@@ -49,7 +56,7 @@ export function Main() {
           <Card
             key={collection.id}
             id={collection.idFirebase}
-            cardName={collection.cardName}
+            cardName={decryptCard(collection.cardName)}
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}

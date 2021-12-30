@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
+import SimpleCrypto from "simple-crypto-js";
 
 import { onValue, push, ref, remove, update } from "firebase/database";
 import { database } from "../lib/firebase";
@@ -43,14 +44,19 @@ export function TaskProvider({ children }: props) {
   const [todoList, setTodoList] = useState<TodosProps[]>([]);
   const [collectionIdFirebase, setCollectionIdFirebase] = useState("");
 
+  const secretKey = "some-unique-key";
+  const simpleCrypto = new SimpleCrypto(secretKey);
+
   const handleTaskName = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTaskName(e.target.value);
 
   const handleClickAddTask = (taskId: string) => {
     if (taskName === "") return;
+    const plainText = taskName;
+    const cipherText = simpleCrypto.encrypt(plainText);
 
     push(ref(database, `users/${user?.id}/${taskId}/todos`), {
-      task: taskName,
+      task: cipherText,
       id: uuidv4(),
       completed: false,
     });

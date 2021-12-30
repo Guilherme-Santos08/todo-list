@@ -8,6 +8,9 @@ export function Home() {
 
   document.title = "Todo List";
 
+  // const teste = localStorage.getItem("collection");
+  // if(teste) console.log(JSON.parse(teste))
+  
   return (
     <>
       <Header search={true} />
