@@ -39,6 +39,7 @@ type cardContextProps = {
   handleCardSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClickAddCard: () => void;
   handleClickRemoveCard: (itemName: string) => void;
+  handleAddCardEnter: (key: any) => void;
 
   collectionFilter: collectionCardProps[];
   collectionCardFirebase: collectionCardProps[];
@@ -120,7 +121,11 @@ export function AddCardProvider({ children }: props) {
     });
 
     setShowInput(false);
-    setCardName("");
+    setTimeout(() => {setCardName("")}, 500)
+  };
+
+  const handleAddCardEnter = (keyDown: any) => {
+    if (keyDown.keyCode === 13) return handleClickAddCard();
   };
 
   const handleClickRemoveCard = async (itemName: string) => {
@@ -146,6 +151,7 @@ export function AddCardProvider({ children }: props) {
         handleClickAddCard,
         handleCardSearch,
         handleClickRemoveCard,
+        handleAddCardEnter,
         collectionCardFirebase,
       }}
     >

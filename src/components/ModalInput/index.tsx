@@ -11,6 +11,7 @@ export function ModalInput() {
     handleCardName,
     handleCardColor,
     handleClickAddCard,
+    handleAddCardEnter,
   } = useAddCard();
 
   const showInputModal = showInput ? "show-modal" : "";
@@ -24,6 +25,8 @@ export function ModalInput() {
             id="name__card"
             value={cardName}
             onChange={handleCardName}
+            onKeyDown={keyDown => handleAddCardEnter(keyDown)}
+            autoComplete="off"
             required
           />
           <div className="underline"></div>

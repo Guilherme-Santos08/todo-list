@@ -12,6 +12,8 @@ export const Container = styled.div`
     display: none;
     overscroll-behavior: hidden;
 
+    transition: all 0.3s ease;
+
     .overlay-content {
       height: 100%;
       overflow: hidden;
@@ -26,8 +28,9 @@ export const Container = styled.div`
     position: fixed;
     top: 40%;
     left: 50%;
-    transform: translate(-50%, -250%);
     z-index: 12;
+    transform: translate(-50%, -250%);
+    opacity: 0;
 
     margin: 8rem auto;
     padding: 3rem;
@@ -40,10 +43,10 @@ export const Container = styled.div`
     box-shadow: 0px 2px 24px -16px rgba(152, 145, 145, 1);
     cursor: default;
 
-    transition: all 0.5s ease;
-    transition-delay: 300ms;
+    transition: all 0.3s ease;
     &.show-modal {
       transform: translate(-50%, -65%);
+      opacity: 1;
     }
   }
 
