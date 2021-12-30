@@ -11,7 +11,9 @@ export function Login() {
   const { signInGoogle, isLogged, signInGithub } = useAuth();
   const navigate = useNavigate();
 
-  if (isLogged) return navigate("/home");
+  if (isLogged) {
+    navigate("/home");
+  }
 
   return (
     <Container>
