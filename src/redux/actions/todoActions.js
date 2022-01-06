@@ -1,10 +1,10 @@
-export const ADD_COLLECTION = "ADD_COLLECTION";
+export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const COMPLETE_TODO = "COMPLETE_TODO";
 
 export function addTodoList(todo) {
   return {
-    type: ADD_COLLECTION,
+    type: ADD_TODO,
     payload: todo,
   };
 }

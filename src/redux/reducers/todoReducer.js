@@ -1,11 +1,11 @@
-import { ADD_COLLECTION, COMPLETE_TODO, DELETE_TODO } from "../actions/todoActions";
+import { ADD_TODO, COMPLETE_TODO, DELETE_TODO } from "../actions/todoActions";
 
 const todo = [];
 
-export const reducer = (state = todo, action) => {
+export const TodoReducer = (state = todo, action) => {
   let newTodos;
   switch (action.type) {
-    case ADD_COLLECTION:
+    case ADD_TODO:
       newTodos = [...state];
       newTodos.push(action.payload);
       return newTodos;

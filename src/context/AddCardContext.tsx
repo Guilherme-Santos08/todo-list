@@ -33,6 +33,7 @@ type cardContextProps = {
   cardName: string;
   cardColor: string;
   cardSearch: string;
+  setShowInput: (ags: any) => void
 
   handleCardName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCardColor: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -144,6 +145,7 @@ export function AddCardProvider({ children }: props) {
         cardName,
         cardColor,
         cardSearch,
+        setShowInput,
         collectionFilter,
         setCollectionCardFirebase,
         handleCardName,

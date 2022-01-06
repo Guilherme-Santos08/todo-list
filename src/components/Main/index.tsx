@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import SimpleCrypto from "simple-crypto-js";
 
 import { collectionCardProps } from "../../context/AddCardContext";
 import { useAddCard } from "../../hooks/useAddCard";
+import { deleteCard } from "../../redux/actions/collectionActions";
 
 import { Card } from "../Card";
 import { CardMore } from "../CardMore";
@@ -11,7 +13,9 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
-  const { showModal, collectionFilter, handleClickRemoveCard } = useAddCard();
+  const { showModal } = useAddCard();
+  // collectionFilter
+
   const [active, setActive] = useState(false);
 
   const todosLength = (collection: { todos: {} }) =>
@@ -31,6 +35,15 @@ export function Main() {
   const secretKey = "some-unique-key";
   const simpleCrypto = new SimpleCrypto(secretKey);
 
+  const cardItems = useSelector((state: RootStateOrAny) => state.collection);
+  console.log(cardItems);
+
+  const dispatch = useDispatch();
+
+  const handleClickRemoveCardRedux = (id: string | undefined) => {
+    return dispatch(deleteCard(id));
+  };
+
   return (
     <Container>
       <div className="name-section">
@@ -39,29 +52,22 @@ export function Main() {
       </div>
 
       <div className="choice">
-        {/* <button
-          aria-label="Botão para mostrar suas coleções favoritas"
-          style={{ backgroundColor: "transparent" }}
-          value="all"
-        >
-          Favoritos
-        </button> */}
         <button aria-label="Botão para mostrar todas as suas coleções">
           Todas as Coleções
         </button>
       </div>
 
       <div className="cards">
-        {collectionFilter.map(collection => (
+        {cardItems.map((collection: any) => (
           <Card
             key={collection.id}
-            id={collection.idFirebase}
-            cardName={decryptCard(collection.cardName)}
+            id={collection.id}
+            cardName={collection.cardName}
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}
             handleClickRemoveCard={() =>
-              handleClickRemoveCard(collection.idFirebase)
+              handleClickRemoveCardRedux(collection.id)
             }
             todosLength={todosLength(collection)}
             todoCompleteLength={todoCompleteLength(collection)}

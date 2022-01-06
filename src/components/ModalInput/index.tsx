@@ -1,4 +1,10 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { v4 as uuidv4 } from "uuid";
+
 import { useAddCard } from "../../hooks/useAddCard";
+import { addCard } from "../../redux/actions/collectionActions";
 
 import { Container } from "./styles";
 
@@ -6,15 +12,34 @@ export function ModalInput() {
   const {
     showInput,
     showModal,
-    cardName,
-    cardColor,
-    handleCardName,
-    handleCardColor,
-    handleClickAddCard,
     handleAddCardEnter,
+    setShowInput,
   } = useAddCard();
+  const [cardName, setCardName] = useState("");
+  const [cardColor, setCardColor] = useState("#000");
 
   const showInputModal = showInput ? "show-modal" : "";
+  const dispatch = useDispatch();
+
+  const handleCardName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCardName(e.target.value);
+  };
+  const handleCardColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCardColor(e.target.value);
+  };
+
+  const handleAddCardRedux = () => {
+    dispatch(
+      addCard({
+        cardColors: cardColor,
+        cardName: cardName,
+        id: uuidv4(),
+        todos: [],
+      })
+    );
+    setCardName("");
+    setShowInput(false);
+  };
 
   return (
     <Container>
@@ -45,7 +70,7 @@ export function ModalInput() {
 
         <div className="modal__button">
           <button
-            onClick={handleClickAddCard}
+            onClick={handleAddCardRedux}
             type="submit"
             aria-label="Adicionar novo cartão"
           >
