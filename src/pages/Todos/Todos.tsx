@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ import { AddTask } from "../../components/AddTask";
 import { Task } from "../../components/Task";
 
 import { Container } from "./styles";
-import { useSelector } from "react-redux";
+import { RootStateOrAny, useSelector } from "react-redux";
 
 type testeProps = {
   name: string;
@@ -21,7 +21,6 @@ type testeProps = {
 };
 
 export function Todos() {
-  const { handleDeleteTask } = useTask();
   const { todoList, handleCollectionId } = useTask();
 
   const params = useParams();
@@ -33,9 +32,7 @@ export function Todos() {
 
   const decryptTask = (todo: string) => simpleCrypto.decrypt(todo).toString();
 
-  const todoItems = useSelector(state => state);
-  const todoItemsRedux = Object.values(todoItems);
-  console.log(todoItemsRedux)
+  const todoItems = useSelector((state: RootStateOrAny) => state.todo);
 
   useEffect(() => {
     return handleCollectionId(`${params.id}`);
@@ -65,13 +62,12 @@ export function Todos() {
         </div>
 
         <ul>
-          {todoItemsRedux.map((todo: testeProps, index) => (
+          {todoItems.map((todo: testeProps, index: number) => (
             <Task
               key={index}
               title={todo.name}
               check={todo.completed}
               id={todo.id}
-              handleDeleteTask={() => console.log("oi")}
             />
           ))}
         </ul>

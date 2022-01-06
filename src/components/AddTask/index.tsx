@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-
 import { useTask } from "../../hooks/useTask";
+
 import { FiPlus } from "react-icons/fi";
 
 import { Container } from "./styles";
@@ -12,8 +12,7 @@ type props = {
 };
 
 export function AddTask({ id }: props) {
-  const { taskName, handleTaskName, handleClickAddTask, handleAddTaskEnter } =
-    useTask();
+  const { taskName, handleTaskName, handleAddTaskEnter } = useTask();
   const dispatch = useDispatch();
 
   const handleAddTodoRedux = () => {

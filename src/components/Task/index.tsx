@@ -1,19 +1,17 @@
-import { useTask } from "../../hooks/useTask";
+import { useDispatch } from "react-redux";
+import { completeTodo, deleteTodo } from "../../redux/actions/todoActions";
+
 import { MdDelete } from "react-icons/md";
 
 import { Container } from "./styles";
-import { useDispatch } from "react-redux";
-import { completeTodo, deleteTodo } from "../../redux/actions/todoActions";
 
 type props = {
   title: string;
   check?: boolean;
   id?: string;
-  handleDeleteTask: () => void;
 };
 
-export function Task({ title, check, handleDeleteTask, id }: props) {
-  const { handleCompleteTask } = useTask();
+export function Task({ title, check, id }: props) {
   const dispatch = useDispatch();
 
   const handleDeleteTodo = (id: string | undefined) => {
@@ -23,7 +21,6 @@ export function Task({ title, check, handleDeleteTask, id }: props) {
   const handleCompleteTodo = (id: string | undefined) => {
     return dispatch(completeTodo(id));
   };
-
 
   return (
     <Container>
