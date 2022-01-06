@@ -2,6 +2,8 @@ import { useTask } from "../../hooks/useTask";
 import { MdDelete } from "react-icons/md";
 
 import { Container } from "./styles";
+import { useDispatch } from "react-redux";
+import { completeTodo, deleteTodo } from "../../redux/actions";
 
 type props = {
   title: string;
@@ -12,6 +14,16 @@ type props = {
 
 export function Task({ title, check, handleDeleteTask, id }: props) {
   const { handleCompleteTask } = useTask();
+  const dispatch = useDispatch();
+
+  const handleDeleteTodo = (id: string | undefined) => {
+    return dispatch(deleteTodo(id));
+  };
+
+  const handleCompleteTodo = (id: string | undefined) => {
+    return dispatch(completeTodo(id));
+  };
+
 
   return (
     <Container>
@@ -21,7 +33,7 @@ export function Task({ title, check, handleDeleteTask, id }: props) {
             <h3 title={title}>{title}</h3>
             <input
               type="checkbox"
-              onChange={() => handleCompleteTask(id, check)}
+              onChange={() => handleCompleteTodo(id)}
               checked={check}
             />
             <span className="checkmark"></span>
@@ -30,7 +42,7 @@ export function Task({ title, check, handleDeleteTask, id }: props) {
         <button
           className="task__delete"
           aria-label="Excluir a tarefa"
-          onClick={handleDeleteTask}
+          onClick={() => handleDeleteTodo(id)}
         >
           <MdDelete size={22} color={"#ccc"} />
         </button>

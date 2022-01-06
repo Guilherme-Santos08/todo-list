@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,13 @@ import { AddTask } from "../../components/AddTask";
 import { Task } from "../../components/Task";
 
 import { Container } from "./styles";
+import { useSelector } from "react-redux";
+
+type testeProps = {
+  name: string;
+  id: string;
+  completed: boolean;
+};
 
 export function Todos() {
   const { handleDeleteTask } = useTask();
@@ -25,6 +32,10 @@ export function Todos() {
   const simpleCrypto = new SimpleCrypto(secretKey);
 
   const decryptTask = (todo: string) => simpleCrypto.decrypt(todo).toString();
+
+  const todoItems = useSelector(state => state);
+  const todoItemsRedux = Object.values(todoItems);
+  console.log(todoItemsRedux)
 
   useEffect(() => {
     return handleCollectionId(`${params.id}`);
@@ -54,13 +65,13 @@ export function Todos() {
         </div>
 
         <ul>
-          {todoList.map((todo, index) => (
+          {todoItemsRedux.map((todo: testeProps, index) => (
             <Task
               key={index}
-              title={decryptTask(todo.task)}
+              title={todo.name}
               check={todo.completed}
-              id={todo.idFirebase}
-              handleDeleteTask={() => handleDeleteTask(todo.idFirebase)}
+              id={todo.id}
+              handleDeleteTask={() => console.log("oi")}
             />
           ))}
         </ul>
