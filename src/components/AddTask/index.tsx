@@ -5,7 +5,7 @@ import { FiPlus } from "react-icons/fi";
 
 import { Container } from "./styles";
 import { useDispatch } from "react-redux";
-import { addTodoList } from "../../redux/actions";
+import { addTodoList } from "../../redux/actions/todoActions";
 
 type props = {
   id: string;

@@ -3,7 +3,7 @@ import { MdDelete } from "react-icons/md";
 
 import { Container } from "./styles";
 import { useDispatch } from "react-redux";
-import { completeTodo, deleteTodo } from "../../redux/actions";
+import { completeTodo, deleteTodo } from "../../redux/actions/todoActions";
 
 type props = {
   title: string;

@@ -1,4 +1,4 @@
-import { ADD_COLLECTION, COMPLETE_TODO, DELETE_TODO } from "./actions";
+import { ADD_COLLECTION, COMPLETE_TODO, DELETE_TODO } from "../actions/todoActions";
 
 const todo = [];
 
