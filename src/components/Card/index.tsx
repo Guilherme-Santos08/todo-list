@@ -12,8 +12,8 @@ type props = {
   setActive: (arg0: any) => void;
   handleClickRemoveCard: () => void;
 
-  todosLength: number;
-  todoCompleteLength: number;
+  todosLength?: number;
+  todoCompleteLength?: number;
 };
 
 export function Card({

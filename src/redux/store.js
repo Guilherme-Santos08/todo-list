@@ -1,6 +1,5 @@
 import { combineReducers, createStore } from "redux";
-import { TodoReducer } from "./reducers/todoReducer";
 import { CardReducer } from "./reducers/cardReducer";
 
-const reducer = combineReducers({ collection: CardReducer, todo: TodoReducer });
+const reducer = combineReducers({ collection: CardReducer });
 export const store = createStore(reducer);

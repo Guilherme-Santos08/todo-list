@@ -1,28 +1,38 @@
+import { KeyboardEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { useTask } from "../../hooks/useTask";
 
 import { FiPlus } from "react-icons/fi";
 
+import { addTodo } from "../../redux/actions/collectionActions";
+
 import { Container } from "./styles";
-import { useDispatch } from "react-redux";
-import { addTodoList } from "../../redux/actions/todoActions";
 
 type props = {
   id: string;
 };
 
 export function AddTask({ id }: props) {
-  const { taskName, handleTaskName, handleAddTaskEnter } = useTask();
+  const [taskName, setTaskName] = useState("");
   const dispatch = useDispatch();
 
-  const handleAddTodoRedux = () => {
+  const handleTaskName = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setTaskName(event.target.value);
+
+  const handleAddTaskRedux = () => {
+    if (taskName === "") return;
     dispatch(
-      addTodoList({
-        name: taskName,
+      addTodo(id, {
+        title: taskName,
         id: uuidv4(),
         completed: false,
       })
     );
+    setTaskName("");
+  };
+
+  const handleAddTaskEnter = (keyDown: KeyboardEvent<HTMLInputElement>) => {
+    if (keyDown.keyCode === 13) return handleAddTaskRedux();
   };
 
   return (
@@ -34,13 +44,13 @@ export function AddTask({ id }: props) {
         placeholder="Add tarefa"
         onChange={handleTaskName}
         value={taskName}
-        onKeyDown={keyDown => handleAddTaskEnter(keyDown, id)}
+        onKeyDown={keyDown => handleAddTaskEnter(keyDown)}
         required
       />
       <button
         className="add-task"
         aria-label="adicionar nova tarefa"
-        onClick={handleAddTodoRedux}
+        onClick={handleAddTaskRedux}
       >
         <FiPlus size="16" />
       </button>

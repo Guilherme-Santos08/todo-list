@@ -14,20 +14,10 @@ import { Container } from "./styles";
 
 export function Main() {
   const { showModal } = useAddCard();
-  // collectionFilter
-
   const [active, setActive] = useState(false);
-
-  const todosLength = (collection: { todos: {} }) =>
-    Object.entries(collection.todos ?? 0).map(e => e).length;
-
-  const todoCompleteLength = (collection: collectionCardProps) => {
-    // Object.entries(collection.todos).filter(([key, todo]) => todo.completed).length;
-    const data = Object.values(collection.todos).filter(
-      todo => todo.completed
-    ).length;
-    return data;
-  };
+  const dispatch = useDispatch();
+  const cardItems = useSelector((state: RootStateOrAny) => state.collection);
+  // collectionFilter
 
   const decryptCard = (cardName: string) =>
     simpleCrypto.decrypt(cardName).toString();
@@ -35,13 +25,18 @@ export function Main() {
   const secretKey = "some-unique-key";
   const simpleCrypto = new SimpleCrypto(secretKey);
 
-  const cardItems = useSelector((state: RootStateOrAny) => state.collection);
-  console.log(cardItems);
-
-  const dispatch = useDispatch();
-
   const handleClickRemoveCardRedux = (id: string | undefined) => {
     return dispatch(deleteCard(id));
+  };
+
+  const todosLength = (collection: { todos: {} }) =>
+    Object.entries(collection.todos ?? 0).map(e => e).length;
+
+  const todoCompleteLength = (collection: collectionCardProps) => {
+    const data = Object.values(collection.todos).filter(
+      todo => todo.completed
+    ).length;
+    return data;
   };
 
   return (

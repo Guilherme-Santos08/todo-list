@@ -14,8 +14,8 @@ import { Task } from "../../components/Task";
 import { Container } from "./styles";
 import { RootStateOrAny, useSelector } from "react-redux";
 
-type testeProps = {
-  name: string;
+type todoProps = {
+  title: string;
   id: string;
   completed: boolean;
 };
@@ -32,7 +32,11 @@ export function Todos() {
 
   const decryptTask = (todo: string) => simpleCrypto.decrypt(todo).toString();
 
-  const todoItems = useSelector((state: RootStateOrAny) => state.todo);
+  const cardItems = useSelector((state: RootStateOrAny) => state.collection);
+
+  const tasks = cardItems
+    .filter((id: any) => id.id === params.id)
+    .map((e: any) => e.todos)[0];
 
   useEffect(() => {
     return handleCollectionId(`${params.id}`);
@@ -57,15 +61,15 @@ export function Todos() {
 
         <div className="task-lenght">
           <span aria-label="Quantidade de tarefas adicionada">
-            Tarefas - {todoList.length}
+            Tarefas - {tasks.length}
           </span>
         </div>
 
         <ul>
-          {todoItems.map((todo: testeProps, index: number) => (
+          {tasks.map((todo: todoProps, index: number) => (
             <Task
               key={index}
-              title={todo.name}
+              title={todo.title}
               check={todo.completed}
               id={todo.id}
             />

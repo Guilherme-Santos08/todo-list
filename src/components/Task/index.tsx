@@ -1,5 +1,8 @@
 import { useDispatch } from "react-redux";
-import { completeTodo, deleteTodo } from "../../redux/actions/todoActions";
+import {
+  deleteTodo,
+  completeTodo,
+} from "../../redux/actions/collectionActions";
 
 import { MdDelete } from "react-icons/md";
 
@@ -14,12 +17,12 @@ type props = {
 export function Task({ title, check, id }: props) {
   const dispatch = useDispatch();
 
-  const handleDeleteTodo = (id: string | undefined) => {
-    return dispatch(deleteTodo(id));
+  const handleDeleteTodo = (isTask: string | undefined) => {
+    return dispatch(deleteTodo(isTask));
   };
 
-  const handleCompleteTodo = (id: string | undefined) => {
-    return dispatch(completeTodo(id));
+  const handleCompleteTodo = (idTask: string | undefined) => {
+    return dispatch(completeTodo(idTask));
   };
 
   return (
