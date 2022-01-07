@@ -21,7 +21,7 @@ type todoProps = {
 };
 
 export function Todos() {
-  const { todoList, handleCollectionId } = useTask();
+  const { handleCollectionId } = useTask();
 
   const params = useParams();
   const navigate = useNavigate();

@@ -53,7 +53,7 @@ export function Main() {
       </div>
 
       <div className="cards">
-        {cardItems.map((collection: any) => (
+        {cardItems.map((collection: collectionCardProps) => (
           <Card
             key={collection.id}
             id={collection.id}

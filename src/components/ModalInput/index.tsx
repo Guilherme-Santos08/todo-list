@@ -12,7 +12,7 @@ import { Container } from "./styles";
 export function ModalInput() {
   const { showInput, showModal, setShowInput } = useAddCard();
   const [cardName, setCardName] = useState("");
-  const [cardColor, setCardColor] = useState("#000");
+  const [cardColor, setCardColor] = useState("#000000");
 
   const showInputModal = showInput ? "show-modal" : "";
   const dispatch = useDispatch();
