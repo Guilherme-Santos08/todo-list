@@ -5,11 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 
 export function Home() {
   const { user } = useAuth();
-
   document.title = "Todo List";
-
-  // const teste = localStorage.getItem("collection");
-  // if(teste) console.log(JSON.parse(teste))
   
   return (
     <>

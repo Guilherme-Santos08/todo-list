@@ -17,7 +17,6 @@ export function Main() {
   const { showModal } = useAddCard();
   const { user } = useAuth();
   const { collectionFilter } = useAddCard();
-  console.log(collectionFilter)
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
 
