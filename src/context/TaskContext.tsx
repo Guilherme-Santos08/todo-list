@@ -11,7 +11,7 @@ import { database } from "../lib/firebase";
 
 import { useAuth } from "../hooks/useAuth";
 import { useAddCard } from "../hooks/useAddCard";
-import { TodosProps } from "./AddCardContext";
+import { TodosProps } from "../types/types";
 
 type props = {
   children: ReactNode;

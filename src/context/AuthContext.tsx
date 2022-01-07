@@ -106,7 +106,7 @@ export function AuthProvider({ children }: props) {
           avatar: photoURL,
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential")
         return notificationEmailError();
       return;
@@ -130,7 +130,7 @@ export function AuthProvider({ children }: props) {
           avatar: photoURL,
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential")
         return notificationEmailError();
       return;

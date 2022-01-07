@@ -12,12 +12,7 @@ import { AddTask } from "../../components/AddTask";
 import { Task } from "../../components/Task";
 
 import { Container } from "./styles";
-
-// type todoProps = {
-//   title: string;
-//   id: string;
-//   completed: boolean;
-// };
+import { TodosProps } from "../../types/types";
 
 export function Todos() {
   const { handleCollectionId, todoList } = useTask();
@@ -58,7 +53,7 @@ export function Todos() {
         </div>
 
         <ul>
-          {todoList.map((todo: any, index: number) => (
+          {todoList.map((todo: TodosProps, index: number) => (
             <Task
               key={index}
               title={decryptTask(todo.title)}

@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import SimpleCrypto from "simple-crypto-js";
 
-import { collectionCardProps } from "../../context/AddCardContext";
 import { useAddCard } from "../../hooks/useAddCard";
 import { useAuth } from "../../hooks/useAuth";
 import { deleteCard } from "../../redux/actions/collectionActions";
+import { collectionCardProps } from "../../types/types";
 
 import { Card } from "../Card";
 import { CardMore } from "../CardMore";

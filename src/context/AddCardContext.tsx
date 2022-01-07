@@ -4,24 +4,10 @@ import { ref, onValue } from "firebase/database";
 import { database } from "../lib/firebase";
 
 import { useAuth } from "../hooks/useAuth";
+import { collectionCardProps } from "../types/types";
 
 type props = {
   children: ReactNode;
-};
-
-export type TodosProps = {
-  task: string;
-  completed: boolean;
-  id: string;
-  idFirebase: string;
-};
-
-export type collectionCardProps = {
-  cardName: string;
-  cardColors: string;
-  id: string;
-  idFirebase: string;
-  todos: TodosProps[];
 };
 
 type cardContextProps = {
