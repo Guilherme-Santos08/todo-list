@@ -1,3 +1,6 @@
+import { ref, push, remove, update } from "firebase/database";
+import { database } from "../../lib/firebase";
+
 import {
   ADD_COLLECTION,
   DELETE_COLLECTION,
@@ -9,54 +12,44 @@ import {
 const collection = [];
 
 export const CardReducer = (state = collection, action) => {
-  let newCollection;
 
   switch (action.type) {
     case ADD_COLLECTION:
-      newCollection = [...state];
-      newCollection.push(action.payload);
-      return newCollection;
+      return push(
+        ref(database, "users/" + action.payload.userId),
+        action.payload.card
+      );
 
     case DELETE_COLLECTION:
-      newCollection = [...state];
-      newCollection = newCollection.filter(
-        collection => collection.id !== action.payload
+      return remove(
+        ref(database, `users/${action.payload.userId}/${action.payload.cardId}`)
       );
-      return newCollection;
 
     case ADD_TODO:
-      newCollection = [...state];
-      newCollection.map(collection => {
-        if (collection.id === action.payload.id)
-          return collection.todos.push(action.payload.object);
-        return collection;
-      });
-      return newCollection;
+      return push(
+        ref(
+          database,
+          `users/${action.payload.userId}/${action.payload.cardId}/todos`
+        ),
+        action.payload.todos
+      );
 
     case COMPLETE_TODO:
-      newCollection = [...state];
-      newCollection = newCollection.map(collection => {
-        return {
-          ...collection,
-          todos: collection.todos.map(todo => {
-            if (todo.id === action.payload) {
-              return { ...todo, completed: !todo.completed };
-            }
-            return todo;
-          }),
-        };
-      });
-      return newCollection;
+      return update(
+        ref(
+          database,
+          `users/${action.payload.userId}/${action.payload.cardId}/todos/${action.payload.taskId}`
+        ),
+        action.payload.completed
+      );
 
     case DELETE_TODO:
-      newCollection = [...state];
-      newCollection = newCollection.map(collection => {
-        return {
-          ...collection,
-          todos: collection.todos.filter(todo => todo.id !== action.payload),
-        };
-      });
-      return newCollection;
+      return remove(
+        ref(
+          database,
+          `users/${action.payload.userId}/${action.payload.cardId}/todos/${action.payload.taskId}`
+        )
+      );
     default:
       return state;
   }

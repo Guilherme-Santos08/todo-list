@@ -5,37 +5,37 @@ export const ADD_TODO = "ADD_TODO";
 export const COMPLETE_TODO = "COMPLETE_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 
-export function addCard(card) {
+export function addCard(userId, card) {
   return {
     type: ADD_COLLECTION,
-    payload: card,
+    payload: { userId, card },
   };
 }
 
-export function deleteCard(cardId) {
+export function deleteCard(userId, cardId) {
   return {
     type: DELETE_COLLECTION,
-    payload: cardId,
+    payload: { userId, cardId },
   };
 }
 
-export function addTodo(id, object) {
+export function addTodo(userId, cardId, todos) {
   return {
     type: ADD_TODO,
-    payload: { id, object },
+    payload: { userId, cardId, todos },
   };
 }
 
-export function completeTodo(todoId) {
+export function completeTodo(userId, cardId, taskId, completed) {
   return {
     type: COMPLETE_TODO,
-    payload: todoId,
+    payload: { userId, cardId, taskId, completed },
   };
 }
 
-export function deleteTodo(todoId) {
+export function deleteTodo(userId, cardId, taskId, completed) {
   return {
     type: DELETE_TODO,
-    payload: todoId,
+    payload: { userId, cardId, taskId, completed },
   };
 }

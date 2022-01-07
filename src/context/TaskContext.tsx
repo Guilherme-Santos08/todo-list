@@ -5,10 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { v4 as uuidv4 } from "uuid";
-import SimpleCrypto from "simple-crypto-js";
 
-import { onValue, push, ref, remove, update } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import { database } from "../lib/firebase";
 
 import { useAuth } from "../hooks/useAuth";
@@ -20,17 +18,7 @@ type props = {
 };
 
 type cardContextProps = {
-  taskName: string;
   todoList: TodosProps[];
-
-  handleClickAddTask: (testeId: string) => void;
-  handleTaskName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCompleteTask: (
-    id: string | undefined,
-    check: boolean | undefined
-  ) => void;
-  handleDeleteTask: (idFirebase: string) => void;
-  handleAddTaskEnter: (keyDown: any, taskId: string) => void;
   handleCollectionId: (collectionIdFirebase: SetStateAction<string>) => void;
 };
 
@@ -40,54 +28,8 @@ export function TaskProvider({ children }: props) {
   const { user } = useAuth();
   const { setCollectionCardFirebase } = useAddCard();
 
-  const [taskName, setTaskName] = useState("");
   const [todoList, setTodoList] = useState<TodosProps[]>([]);
   const [collectionIdFirebase, setCollectionIdFirebase] = useState("");
-
-  const secretKey = "some-unique-key";
-  const simpleCrypto = new SimpleCrypto(secretKey);
-
-  const handleTaskName = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTaskName(e.target.value);
-
-  const handleClickAddTask = (taskId: string) => {
-    if (taskName === "") return;
-    const plainText = taskName;
-    const cipherText = simpleCrypto.encrypt(plainText);
-
-    push(ref(database, `users/${user?.id}/${taskId}/todos`), {
-      task: cipherText,
-      id: uuidv4(),
-      completed: false,
-    });
-
-    setTaskName("");
-  };
-
-  const handleAddTaskEnter = (keyDown: any, taskId: string) => {
-    if (keyDown.keyCode === 13) return handleClickAddTask(taskId);
-  };
-
-  const handleCompleteTask = async (
-    id: string | undefined,
-    check: boolean | undefined
-  ) => {
-    await update(
-      ref(database, `users/${user?.id}/${collectionIdFirebase}/todos/${id}`),
-      {
-        completed: !check,
-      }
-    );
-  };
-
-  const handleDeleteTask = async (idFirebase: string) => {
-    await remove(
-      ref(
-        database,
-        `users/${user?.id}/${collectionIdFirebase}/todos/${idFirebase}`
-      )
-    );
-  };
 
   const handleCollectionId = (collectionIdFirebase: SetStateAction<string>) =>
     setCollectionIdFirebase(collectionIdFirebase);
@@ -101,7 +43,7 @@ export function TaskProvider({ children }: props) {
         for (let idFirebase in data) {
           todoList.push({ idFirebase, ...data[idFirebase] });
         }
-        setTodoList(todoList);
+        setTodoList(Object.values(todoList));
       },
       {
         onlyOnce: false,
@@ -112,13 +54,7 @@ export function TaskProvider({ children }: props) {
   return (
     <TaskContext.Provider
       value={{
-        taskName,
         todoList,
-        handleTaskName,
-        handleClickAddTask,
-        handleCompleteTask,
-        handleDeleteTask,
-        handleAddTaskEnter,
         handleCollectionId,
       }}
     >

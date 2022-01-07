@@ -7,22 +7,37 @@ import {
 import { MdDelete } from "react-icons/md";
 
 import { Container } from "./styles";
+import { useAuth } from "../../hooks/useAuth";
 
 type props = {
   title: string;
   check?: boolean;
-  id?: string;
+  idFirebase?: string;
+  cardId?: string;
 };
 
-export function Task({ title, check, id }: props) {
+export function Task({ title, check, idFirebase, cardId }: props) {
+  const { user } = useAuth();
   const dispatch = useDispatch();
 
-  const handleDeleteTodo = (isTask: string | undefined) => {
-    return dispatch(deleteTodo(isTask));
+  const handleCompleteTodo = () => {
+    try {
+      dispatch(
+        completeTodo(user?.id, cardId, idFirebase, {
+          completed: !check,
+        })
+      );
+    } catch {
+      return;
+    }
   };
 
-  const handleCompleteTodo = (idTask: string | undefined) => {
-    return dispatch(completeTodo(idTask));
+  const handleDeleteTodo = () => {
+    try {
+      dispatch(deleteTodo(user?.id, cardId, idFirebase));
+    } catch {
+      return;
+    }
   };
 
   return (
@@ -33,7 +48,7 @@ export function Task({ title, check, id }: props) {
             <h3 title={title}>{title}</h3>
             <input
               type="checkbox"
-              onChange={() => handleCompleteTodo(id)}
+              onChange={() => handleCompleteTodo()}
               checked={check}
             />
             <span className="checkmark"></span>
@@ -42,7 +57,7 @@ export function Task({ title, check, id }: props) {
         <button
           className="task__delete"
           aria-label="Excluir a tarefa"
-          onClick={() => handleDeleteTodo(id)}
+          onClick={handleDeleteTodo}
         >
           <MdDelete size={22} color={"#ccc"} />
         </button>

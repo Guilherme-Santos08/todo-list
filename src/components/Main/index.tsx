@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import SimpleCrypto from "simple-crypto-js";
 
 import { collectionCardProps } from "../../context/AddCardContext";
 import { useAddCard } from "../../hooks/useAddCard";
+import { useAuth } from "../../hooks/useAuth";
 import { deleteCard } from "../../redux/actions/collectionActions";
 
 import { Card } from "../Card";
@@ -14,21 +15,25 @@ import { Container } from "./styles";
 
 export function Main() {
   const { showModal } = useAddCard();
+  const { user } = useAuth();
+  const { collectionFilter } = useAddCard();
+  console.log(collectionFilter)
   const [active, setActive] = useState(false);
-
   const dispatch = useDispatch();
-  const cardItems = useSelector((state: RootStateOrAny) => state.collection);
-  // collectionFilter
 
   const secretKey = "some-unique-key";
   const simpleCrypto = new SimpleCrypto(secretKey);
   const decryptCard = (cardName: string) =>
     simpleCrypto.decrypt(cardName).toString();
 
-  const handleClickRemoveCardRedux = (id: string | undefined) => {
-    return dispatch(deleteCard(id));
+  const handleClickRemoveCardRedux = (cardId: string | undefined) => {
+    try {
+      return dispatch(deleteCard(user?.id, cardId));
+    } catch {
+      return;
+    }
   };
-
+  
   const todosLength = (collection: { todos: {} }) =>
     Object.entries(collection.todos ?? 0).map(e => e).length;
 
@@ -53,16 +58,16 @@ export function Main() {
       </div>
 
       <div className="cards">
-        {cardItems.map((collection: collectionCardProps) => (
+        {collectionFilter.map((collection: collectionCardProps) => (
           <Card
             key={collection.id}
-            id={collection.id}
+            id={collection.idFirebase}
             cardName={decryptCard(collection.cardName)}
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}
             handleClickRemoveCard={() =>
-              handleClickRemoveCardRedux(collection.id)
+              handleClickRemoveCardRedux(collection.idFirebase)
             }
             todosLength={todosLength(collection)}
             todoCompleteLength={todoCompleteLength(collection)}

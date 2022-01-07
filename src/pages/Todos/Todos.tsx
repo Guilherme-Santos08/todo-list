@@ -12,16 +12,15 @@ import { AddTask } from "../../components/AddTask";
 import { Task } from "../../components/Task";
 
 import { Container } from "./styles";
-import { RootStateOrAny, useSelector } from "react-redux";
 
-type todoProps = {
-  title: string;
-  id: string;
-  completed: boolean;
-};
+// type todoProps = {
+//   title: string;
+//   id: string;
+//   completed: boolean;
+// };
 
 export function Todos() {
-  const { handleCollectionId } = useTask();
+  const { handleCollectionId, todoList } = useTask();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -30,12 +29,6 @@ export function Todos() {
   const secretKey = "some-unique-key";
   const simpleCrypto = new SimpleCrypto(secretKey);
   const decryptTask = (todo: string) => simpleCrypto.decrypt(todo).toString();
-
-  const cardItems = useSelector((state: RootStateOrAny) => state.collection);
-
-  const tasks = cardItems
-    .filter((id: any) => id.id === params.id)
-    .map((e: any) => e.todos)[0];
 
   useEffect(() => {
     return handleCollectionId(`${params.id}`);
@@ -60,17 +53,18 @@ export function Todos() {
 
         <div className="task-lenght">
           <span aria-label="Quantidade de tarefas adicionada">
-            Tarefas - {tasks.length}
+            Tarefas - {todoList.length}
           </span>
         </div>
 
         <ul>
-          {tasks.map((todo: todoProps, index: number) => (
+          {todoList.map((todo: any, index: number) => (
             <Task
               key={index}
               title={decryptTask(todo.title)}
               check={todo.completed}
-              id={todo.id}
+              idFirebase={todo.idFirebase}
+              cardId={`${params.id}`}
             />
           ))}
         </ul>

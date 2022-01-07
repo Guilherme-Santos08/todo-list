@@ -5,6 +5,7 @@ import SimpleCrypto from "simple-crypto-js";
 import { v4 as uuidv4 } from "uuid";
 
 import { useAddCard } from "../../hooks/useAddCard";
+import { useAuth } from "../../hooks/useAuth";
 import { addCard } from "../../redux/actions/collectionActions";
 
 import { Container } from "./styles";
@@ -13,6 +14,8 @@ export function ModalInput() {
   const { showInput, showModal, setShowInput } = useAddCard();
   const [cardName, setCardName] = useState("");
   const [cardColor, setCardColor] = useState("#000000");
+
+  const { user } = useAuth();
 
   const showInputModal = showInput ? "show-modal" : "";
   const dispatch = useDispatch();
@@ -29,16 +32,21 @@ export function ModalInput() {
     setCardColor(e.target.value);
 
   const handleAddCardRedux = () => {
-    dispatch(
-      addCard({
-        cardColors: cardColor,
-        cardName: cipherText,
-        id: uuidv4(),
-        todos: [],
-      })
-    );
+    try {
+      dispatch(
+        addCard(user?.id, {
+          cardName: cipherText,
+          cardColors: cardColor,
+          id: uuidv4(),
+          todos: [],
+        })
+      );
+    } catch {
+      return;
+    }
     setCardName("");
     setShowInput(false);
+    // setTimeout(() => {setCardName("")}, 500)
   };
 
   const handleAddCardEnter = (keyDown: KeyboardEvent<HTMLInputElement>) => {

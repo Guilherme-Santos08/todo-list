@@ -2,6 +2,7 @@ import { combineReducers, createStore } from "redux";
 import { CardReducer } from "./reducers/cardReducer";
 
 // https://dev.to/link2twenty/react-redux-and-localstorage-2lih
+/*
 function saveToLocalStorage(state) {
   try {
     const serialisedState = JSON.stringify(state);
@@ -10,7 +11,6 @@ function saveToLocalStorage(state) {
     console.warn(e);
   }
 }
-
 function loadFromLocalStorage() {
   try {
     const serialisedState = localStorage.getItem("collectionUsingRedux");
@@ -20,8 +20,9 @@ function loadFromLocalStorage() {
     return [];
   }
 }
+*/
 
 const reducer = combineReducers({ collection: CardReducer });
 
-export const store = createStore(reducer, loadFromLocalStorage());
-store.subscribe(() => saveToLocalStorage(store.getState()));
+export const store = createStore(reducer);
+// store.subscribe(() => saveToLocalStorage(store.getState()));

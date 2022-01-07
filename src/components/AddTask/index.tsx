@@ -1,19 +1,22 @@
 import { KeyboardEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import SimpleCrypto from "simple-crypto-js";
 
 import { FiPlus } from "react-icons/fi";
 
 import { addTodo } from "../../redux/actions/collectionActions";
+import { useAuth } from "../../hooks/useAuth";
 
 import { Container } from "./styles";
-import SimpleCrypto from "simple-crypto-js";
 
 type props = {
   id: string;
 };
 
 export function AddTask({ id }: props) {
+  const { user } = useAuth();
+
   const [taskName, setTaskName] = useState("");
   const dispatch = useDispatch();
 
@@ -27,13 +30,17 @@ export function AddTask({ id }: props) {
 
   const handleAddTaskRedux = () => {
     if (taskName === "") return;
-    dispatch(
-      addTodo(id, {
-        title: cipherText,
-        id: uuidv4(),
-        completed: false,
-      })
-    );
+    try {
+      dispatch(
+        addTodo(user?.id, id, {
+          title: cipherText,
+          id: uuidv4(),
+          completed: false,
+        })
+      );
+    } catch {
+      return;
+    }
     setTaskName("");
   };
 
