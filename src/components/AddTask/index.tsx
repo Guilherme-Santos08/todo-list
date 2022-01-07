@@ -7,6 +7,7 @@ import { FiPlus } from "react-icons/fi";
 import { addTodo } from "../../redux/actions/collectionActions";
 
 import { Container } from "./styles";
+import SimpleCrypto from "simple-crypto-js";
 
 type props = {
   id: string;
@@ -16,6 +17,11 @@ export function AddTask({ id }: props) {
   const [taskName, setTaskName] = useState("");
   const dispatch = useDispatch();
 
+  const secretKey = "some-unique-key";
+  const simpleCrypto = new SimpleCrypto(secretKey);
+  const plainText = taskName;
+  const cipherText = simpleCrypto.encrypt(plainText);
+
   const handleTaskName = (event: React.ChangeEvent<HTMLInputElement>) =>
     setTaskName(event.target.value);
 
@@ -23,7 +29,7 @@ export function AddTask({ id }: props) {
     if (taskName === "") return;
     dispatch(
       addTodo(id, {
-        title: taskName,
+        title: cipherText,
         id: uuidv4(),
         completed: false,
       })

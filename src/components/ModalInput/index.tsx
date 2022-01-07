@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import SimpleCrypto from "simple-crypto-js";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -9,36 +10,39 @@ import { addCard } from "../../redux/actions/collectionActions";
 import { Container } from "./styles";
 
 export function ModalInput() {
-  const {
-    showInput,
-    showModal,
-    handleAddCardEnter,
-    setShowInput,
-  } = useAddCard();
+  const { showInput, showModal, setShowInput } = useAddCard();
   const [cardName, setCardName] = useState("");
   const [cardColor, setCardColor] = useState("#000");
 
   const showInputModal = showInput ? "show-modal" : "";
   const dispatch = useDispatch();
 
-  const handleCardName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const secretKey = "some-unique-key";
+  const simpleCrypto = new SimpleCrypto(secretKey);
+  const plainText = cardName;
+  const cipherText = simpleCrypto.encrypt(plainText);
+
+  const handleCardName = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCardName(e.target.value);
-  };
-  const handleCardColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleCardColor = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCardColor(e.target.value);
-  };
 
   const handleAddCardRedux = () => {
     dispatch(
       addCard({
         cardColors: cardColor,
-        cardName: cardName,
+        cardName: cipherText,
         id: uuidv4(),
         todos: [],
       })
     );
     setCardName("");
     setShowInput(false);
+  };
+
+  const handleAddCardEnter = (keyDown: KeyboardEvent<HTMLInputElement>) => {
+    if (keyDown.keyCode === 13) return handleAddCardRedux();
   };
 
   return (

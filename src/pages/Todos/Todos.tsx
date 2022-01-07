@@ -29,7 +29,6 @@ export function Todos() {
 
   const secretKey = "some-unique-key";
   const simpleCrypto = new SimpleCrypto(secretKey);
-
   const decryptTask = (todo: string) => simpleCrypto.decrypt(todo).toString();
 
   const cardItems = useSelector((state: RootStateOrAny) => state.collection);
@@ -69,7 +68,7 @@ export function Todos() {
           {tasks.map((todo: todoProps, index: number) => (
             <Task
               key={index}
-              title={todo.title}
+              title={decryptTask(todo.title)}
               check={todo.completed}
               id={todo.id}
             />

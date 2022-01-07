@@ -15,15 +15,15 @@ import { Container } from "./styles";
 export function Main() {
   const { showModal } = useAddCard();
   const [active, setActive] = useState(false);
+
   const dispatch = useDispatch();
   const cardItems = useSelector((state: RootStateOrAny) => state.collection);
   // collectionFilter
 
-  const decryptCard = (cardName: string) =>
-    simpleCrypto.decrypt(cardName).toString();
-
   const secretKey = "some-unique-key";
   const simpleCrypto = new SimpleCrypto(secretKey);
+  const decryptCard = (cardName: string) =>
+    simpleCrypto.decrypt(cardName).toString();
 
   const handleClickRemoveCardRedux = (id: string | undefined) => {
     return dispatch(deleteCard(id));
@@ -57,7 +57,7 @@ export function Main() {
           <Card
             key={collection.id}
             id={collection.id}
-            cardName={collection.cardName}
+            cardName={decryptCard(collection.cardName)}
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}
