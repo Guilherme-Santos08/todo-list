@@ -28,6 +28,7 @@ export function ModalInput() {
     setCardColor(e.target.value);
 
   const handleAddCardRedux = () => {
+    if (cardName === "" || cardColor === "") return;
     try {
       dispatch(
         addCard(user?.id, {

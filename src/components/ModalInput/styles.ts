@@ -9,10 +9,12 @@ export const Container = styled.div`
     bottom: 0px;
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
-    display: none;
     overscroll-behavior: hidden;
 
-    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all 0.34s ease-in-out;
 
     .overlay-content {
       height: 100%;
@@ -20,7 +22,8 @@ export const Container = styled.div`
     }
 
     &.show-modal {
-      display: block;
+      opacity: 1;
+      visibility: visible;
     }
   }
 
@@ -43,7 +46,7 @@ export const Container = styled.div`
     box-shadow: 0px 2px 24px -16px rgba(152, 145, 145, 1);
     cursor: default;
 
-    transition: all 0.3s ease;
+    transition: all 0.35s ease-in-out;
     &.show-modal {
       transform: translate(-50%, -65%);
       opacity: 1;
