@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import SimpleCrypto from "simple-crypto-js";
-
 import { useAddCard } from "../../hooks/useAddCard";
 import { useAuth } from "../../hooks/useAuth";
-import { deleteCard } from "../../redux/actions/collectionActions";
+import { useDecrypt } from "../../hooks/useCryptography";
+
 import { collectionCardProps } from "../../types/types";
+import { deleteCard } from "../../redux/actions/collectionActions";
 
 import { Card } from "../Card";
 import { CardMore } from "../CardMore";
@@ -14,16 +14,13 @@ import { ModalInput } from "../ModalInput";
 import { Container } from "./styles";
 
 export function Main() {
-  const { showModal } = useAddCard();
-  const { user } = useAuth();
-  const { collectionFilter } = useAddCard();
   const [active, setActive] = useState(false);
-  const dispatch = useDispatch();
 
-  const secretKey = "some-unique-key";
-  const simpleCrypto = new SimpleCrypto(secretKey);
-  const decryptCard = (cardName: string) =>
-    simpleCrypto.decrypt(cardName).toString();
+  const { user } = useAuth();
+  const { collectionFilter, showModal } = useAddCard();
+  const { decryptText } = useDecrypt();
+
+  const dispatch = useDispatch();
 
   const handleClickRemoveCardRedux = (cardId: string | undefined) => {
     try {
@@ -32,7 +29,7 @@ export function Main() {
       return;
     }
   };
-  
+
   const todosLength = (collection: { todos: {} }) =>
     Object.entries(collection.todos ?? 0).map(e => e).length;
 
@@ -61,7 +58,7 @@ export function Main() {
           <Card
             key={collection.id}
             id={collection.idFirebase}
-            cardName={decryptCard(collection.cardName)}
+            cardName={decryptText(collection.cardName)}
             backgroundColor={collection.cardColors}
             setActive={setActive}
             active={active}

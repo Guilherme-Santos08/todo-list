@@ -1,7 +1,6 @@
 import { KeyboardEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import SimpleCrypto from "simple-crypto-js";
 
 import { FiPlus } from "react-icons/fi";
 
@@ -9,21 +8,19 @@ import { addTodo } from "../../redux/actions/collectionActions";
 import { useAuth } from "../../hooks/useAuth";
 
 import { Container } from "./styles";
+import { useCrypto } from "../../hooks/useCryptography";
 
 type props = {
   id: string;
 };
 
 export function AddTask({ id }: props) {
+  const [taskName, setTaskName] = useState("");
+
+  const { cipherText } = useCrypto(taskName);
   const { user } = useAuth();
 
-  const [taskName, setTaskName] = useState("");
   const dispatch = useDispatch();
-
-  const secretKey = "some-unique-key";
-  const simpleCrypto = new SimpleCrypto(secretKey);
-  const plainText = taskName;
-  const cipherText = simpleCrypto.encrypt(plainText);
 
   const handleTaskName = (event: React.ChangeEvent<HTMLInputElement>) =>
     setTaskName(event.target.value);
