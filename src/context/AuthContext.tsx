@@ -13,6 +13,7 @@ import {
   deleteUser,
 } from "firebase/auth";
 import { ref, remove } from "firebase/database";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type props = {
   children: ReactNode;
@@ -44,19 +45,8 @@ type authContextProps = {
 
 export const AuthContext = createContext({} as authContextProps);
 
-const getUserLocalStorage = () => {
-  if (typeof window !== "undefined") {
-    const data = localStorage.getItem("user");
-    if (data) {
-      return JSON.parse(data);
-    } else {
-      return null;
-    }
-  }
-};
-
 export function AuthProvider({ children }: props) {
-  const [user, setUser] = useState<User | null>(getUserLocalStorage);
+  const [user, setUser] = useLocalStorage("user", null);
   const [isLogged, setIsLogged] = useState(false);
 
   const [modalExitOrDelete, setModalExitOrDelete] = useState(false);
