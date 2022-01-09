@@ -13,7 +13,7 @@ export function RoutesApp() {
     return user || isLogged ? children : <Navigate to={redirectTo} />;
   };
 
-  const RoutePublic = ({ children, redirectTo }) => {
+  const PublicRoute = ({ children, redirectTo }) => {
     return user || isLogged ? <Navigate to={redirectTo} /> : children;
   };
 
@@ -39,9 +39,9 @@ export function RoutesApp() {
         <Route
           path="/"
           element={
-            <RoutePublic redirectTo="/home">
+            <PublicRoute redirectTo="/home">
               <Login />
-            </RoutePublic>
+            </PublicRoute>
           }
         />
         <Route path="*" element={<Erro404 />} />
