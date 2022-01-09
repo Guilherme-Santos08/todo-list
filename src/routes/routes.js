@@ -7,10 +7,14 @@ import { Login } from "../pages/Login/Login";
 import { Todos } from "../pages/Todos/Todos";
 
 export function RoutesApp() {
-  const PrivateRoute = ({ children, redirectTo }) => {
-    const { user, isLogged } = useAuth();
+  const { user, isLogged } = useAuth();
 
+  const PrivateRoute = ({ children, redirectTo }) => {
     return user || isLogged ? children : <Navigate to={redirectTo} />;
+  };
+
+  const RoutePublic = ({ children, redirectTo }) => {
+    return user || isLogged ? <Navigate to={redirectTo} /> : children;
   };
 
   return (
@@ -32,7 +36,14 @@ export function RoutesApp() {
             </PrivateRoute>
           }
         />
-        <Route path="/" element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <RoutePublic redirectTo="/home">
+              <Login />
+            </RoutePublic>
+          }
+        />
         <Route path="*" element={<Erro404 />} />
       </Routes>
     </>
