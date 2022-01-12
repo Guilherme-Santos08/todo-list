@@ -10,38 +10,48 @@ import { addCard } from "../../redux/actions/collectionActions";
 
 import { Container } from "./styles";
 
+export type inputValue = {
+  cardName: string;
+  cardColor: string;
+};
+
 export function ModalInput() {
   const { showInput, showModal, setShowInput } = useAddCard();
-  const [cardName, setCardName] = useState("");
-  const [cardColor, setCardColor] = useState("#000000");
+  const [valueCard, setValueCard] = useState<inputValue>({
+    cardName: "",
+    cardColor: "#000000",
+  });
 
   const { user } = useAuth();
-  const { cipherText } = useCrypto(cardName);
+  const { cipherText } = useCrypto(valueCard?.cardName);
 
   const showInputModal = showInput ? "show-modal" : "";
   const dispatch = useDispatch();
 
-  const handleCardName = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setCardName(e.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
-  const handleCardColor = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setCardColor(e.target.value);
+    setValueCard({ ...valueCard, [name]: value });
+  };
 
   const handleAddCardRedux = () => {
-    if (cardName === "" || cardColor === "") return;
+    if (valueCard.cardName === "") return;
     try {
       dispatch(
         addCard(user?.id, {
           cardName: cipherText,
-          cardColors: cardColor,
+          cardColors: valueCard.cardColor,
           id: uuidv4(),
           todos: [],
         })
       );
+      setValueCard({
+        cardName: "",
+        cardColor: "#000000",
+      });
     } catch {
       return;
     }
-    setCardName("");
     setShowInput(false);
   };
 
@@ -56,8 +66,9 @@ export function ModalInput() {
           <input
             type="text"
             id="name__card"
-            value={cardName}
-            onChange={handleCardName}
+            name="cardName"
+            defaultValue={valueCard.cardName}
+            onChange={handleChange}
             onKeyDown={keyDown => handleAddCardEnter(keyDown)}
             autoComplete="off"
             required
@@ -70,8 +81,9 @@ export function ModalInput() {
           <input
             type="color"
             id="color__card"
-            value={cardColor}
-            onChange={handleCardColor}
+            name="cardColor"
+            defaultValue={valueCard.cardColor}
+            onChange={handleChange}
           />
           <label htmlFor="color__card">Cor do perfil</label>
         </div>

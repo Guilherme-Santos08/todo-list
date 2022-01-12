@@ -6,27 +6,36 @@ import { FiPlus } from "react-icons/fi";
 
 import { addTodo } from "../../redux/actions/collectionActions";
 import { useAuth } from "../../hooks/useAuth";
+import { useCrypto } from "../../hooks/useCryptography";
 
 import { Container } from "./styles";
-import { useCrypto } from "../../hooks/useCryptography";
 
 type props = {
   id: string;
 };
 
-export function AddTask({ id }: props) {
-  const [taskName, setTaskName] = useState("");
+type valueTaskProps = {
+  taskName: string;
+};
 
-  const { cipherText } = useCrypto(taskName);
+export function AddTask({ id }: props) {
+  const [valueTask, setValueTask] = useState<valueTaskProps>({
+    taskName: "",
+  });
+
+  const { cipherText } = useCrypto(valueTask.taskName);
   const { user } = useAuth();
 
   const dispatch = useDispatch();
 
-  const handleTaskName = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setTaskName(event.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setValueTask({ ...valueTask, [name]: value });
+  };
 
   const handleAddTaskRedux = () => {
-    if (taskName === "") return;
+    if (valueTask.taskName === "") return;
     try {
       dispatch(
         addTodo(user?.id, id, {
@@ -35,10 +44,10 @@ export function AddTask({ id }: props) {
           completed: false,
         })
       );
+      setValueTask({ taskName: "" });
     } catch {
       return;
     }
-    setTaskName("");
   };
 
   const handleAddTaskEnter = (keyDown: KeyboardEvent<HTMLInputElement>) => {
@@ -51,9 +60,10 @@ export function AddTask({ id }: props) {
       <input
         type="text"
         id="add-task"
+        name="taskName"
         placeholder="Add tarefa"
-        onChange={handleTaskName}
-        value={taskName}
+        onChange={handleChange}
+        value={valueTask.taskName}
         onKeyDown={keyDown => handleAddTaskEnter(keyDown)}
         required
       />
