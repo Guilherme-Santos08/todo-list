@@ -94,6 +94,8 @@ export const Container = styled.li`
         font-size: 1rem;
         font-weight: normal;
         color: #fff;
+
+        max-width: 100%;
         background-color: transparent;
         padding-bottom: 0.3rem;
 
@@ -107,9 +109,9 @@ export const Container = styled.li`
         width: 90px;
         height: 30px;
         border-radius: 8px;
-        transition: opacity .2s ease;
+        transition: opacity 0.2s ease;
         &:hover {
-          opacity: .8;
+          opacity: 0.8;
         }
       }
       .task__edit--edit {
@@ -134,6 +136,9 @@ export const Container = styled.li`
         h3 {
           max-width: 227px;
         }
+      }
+      .task__edit {
+        width: 150px;
       }
     }
   }
