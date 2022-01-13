@@ -1,24 +1,47 @@
+import { useState } from "react";
+
 import { useDispatch } from "react-redux";
 import {
   deleteTodo,
   completeTodo,
+  editTodo,
 } from "../../redux/actions/collectionActions";
 
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+
+import { useAuth } from "../../hooks/useAuth";
+import { useCrypto } from "../../hooks/useCryptography";
 
 import { Container } from "./styles";
-import { useAuth } from "../../hooks/useAuth";
 
 type props = {
   title: string;
   check?: boolean;
   idFirebase?: string;
   cardId?: string;
+  valueInput?: string;
 };
 
-export function Task({ title, check, idFirebase, cardId }: props) {
+type editTaskValueProps = {
+  edit: string;
+};
+
+export function Task({ title, check, idFirebase, cardId, valueInput }: props) {
+  const [edit, setEdit] = useState(false);
+  const [editTaskValue, setEditTaskValue] = useState<editTaskValueProps>({
+    edit: "",
+  });
+
   const { user } = useAuth();
+  const { cipherText } = useCrypto(editTaskValue.edit);
+
   const dispatch = useDispatch();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setEditTaskValue({ ...editTaskValue, [name]: value });
+  };
 
   const handleCompleteTodo = () => {
     try {
@@ -40,27 +63,73 @@ export function Task({ title, check, idFirebase, cardId }: props) {
     }
   };
 
+  const handleEditTodo = () => {
+    if (editTaskValue.edit === "") return setEdit(false);
+    try {
+      dispatch(
+        editTodo(user?.id, cardId, idFirebase, {
+          title: cipherText,
+        })
+      );
+    } catch {
+      return;
+    }
+    setEdit(false);
+  };
+
   return (
     <Container>
       <div className="task">
-        <div className="task__input">
-          <label className="container">
-            <h3 title={title}>{title}</h3>
-            <input
-              type="checkbox"
-              onChange={() => handleCompleteTodo()}
-              checked={check}
-            />
-            <span className="checkmark"></span>
-          </label>
-        </div>
-        <button
-          className="task__delete"
-          aria-label="Excluir a tarefa"
-          onClick={handleDeleteTodo}
-        >
-          <MdDelete size={22} color={"#ccc"} />
-        </button>
+        {!edit ? (
+          <>
+            <div className="task__input">
+              <label className="container">
+                <h3 title={title}>{title}</h3>
+                <input
+                  type="checkbox"
+                  onChange={() => handleCompleteTodo()}
+                  checked={check}
+                />
+                <span className="checkmark"></span>
+              </label>
+            </div>
+            <div className="task__btns">
+              <button
+                aria-label="Botão para editar tarefa"
+                onClick={() => setEdit(true)}
+              >
+                <MdModeEdit size={19} color={"#ccc"} />
+              </button>
+              <button
+                className="task__btns--delete"
+                aria-label="Excluir a tarefa"
+                onClick={handleDeleteTodo}
+              >
+                <MdDelete size={19} color={"#ccc"} />
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="task__edit">
+              <label htmlFor="edit" className="sr-only">
+                Editar Tarefa
+              </label>
+              <input
+                type="text"
+                id="edit"
+                name="edit"
+                defaultValue={valueInput}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="task__edit--btn">
+              <button className="task__edit--edit" onClick={handleEditTodo}>
+                Editar
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </Container>
   );

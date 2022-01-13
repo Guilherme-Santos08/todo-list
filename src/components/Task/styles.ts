@@ -6,7 +6,7 @@ export const Container = styled.li`
 
   width: 100%;
   height: 50px;
-  background-color: ${(props) => props.theme.colors.backgroundSecondary};
+  background-color: ${props => props.theme.colors.backgroundSecondary};
 
   border-radius: 16px;
 
@@ -15,8 +15,19 @@ export const Container = styled.li`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-
     padding: 0 1rem;
+
+    button {
+      background-color: transparent;
+      cursor: pointer;
+      border: none;
+      color: #fff;
+
+      & + button {
+        margin-left: 0.75rem;
+      }
+    }
+
     .task__input {
       h3 {
         font-size: 1rem;
@@ -34,7 +45,7 @@ export const Container = styled.li`
         display: none;
 
         &:checked ~ .checkmark {
-          background-color: ${(props) => props.theme.colors.backgroundThird};
+          background-color: ${props => props.theme.colors.backgroundThird};
         }
 
         &:checked ~ .checkmark:after {
@@ -56,7 +67,7 @@ export const Container = styled.li`
         width: 20px;
         background-color: #eee;
         border-radius: 6px;
-        border: 3px solid ${(props) => props.theme.colors.backgroundThird};
+        border: 3px solid ${props => props.theme.colors.backgroundThird};
 
         &:after {
           content: "";
@@ -73,11 +84,37 @@ export const Container = styled.li`
       }
     }
 
-    .task__delete {
-      color: #fff;
-      background-color: transparent;
-      cursor: pointer;
-      border: none;
+    .task__btns {
+      display: flex;
+      align-items: center;
+    }
+
+    .task__edit {
+      input {
+        font-size: 1rem;
+        font-weight: normal;
+        color: #fff;
+        background-color: transparent;
+        padding-bottom: 0.3rem;
+
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #fff;
+      }
+    }
+    .task__edit--btn {
+      button {
+        width: 90px;
+        height: 30px;
+        border-radius: 8px;
+        transition: opacity .2s ease;
+        &:hover {
+          opacity: .8;
+        }
+      }
+      .task__edit--edit {
+        background-color: ${props => props.theme.colors.backgroundThird};
+      }
     }
   }
 

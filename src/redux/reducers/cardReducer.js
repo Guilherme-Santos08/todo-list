@@ -7,12 +7,12 @@ import {
   ADD_TODO,
   COMPLETE_TODO,
   DELETE_TODO,
+  EDIT_TODO,
 } from "../actions/collectionActions";
 
 const collection = [];
 
 export const CardReducer = (state = collection, action) => {
-
   switch (action.type) {
     case ADD_COLLECTION:
       return push(
@@ -41,6 +41,15 @@ export const CardReducer = (state = collection, action) => {
           `users/${action.payload.userId}/${action.payload.cardId}/todos/${action.payload.taskId}`
         ),
         action.payload.completed
+      );
+
+    case EDIT_TODO:
+      return update(
+        ref(
+          database,
+          `users/${action.payload.userId}/${action.payload.cardId}/todos/${action.payload.taskId}`
+        ),
+        action.payload.edit
       );
 
     case DELETE_TODO:

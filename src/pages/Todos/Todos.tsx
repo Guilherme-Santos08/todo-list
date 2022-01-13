@@ -2,17 +2,17 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
+import { TodosProps } from "../../types/types";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
 import { useTask } from "../../hooks/useTask";
+import { useDecrypt } from "../../hooks/useCryptography";
 
 import { Header } from "../../components/Header";
 import { AddTask } from "../../components/AddTask";
 import { Task } from "../../components/Task";
 
 import { Container } from "./styles";
-import { TodosProps } from "../../types/types";
-import { useDecrypt } from "../../hooks/useCryptography";
 
 export function Todos() {
   const { handleCollectionId, todoList } = useTask();
@@ -57,6 +57,7 @@ export function Todos() {
               check={todo.completed}
               idFirebase={todo.idFirebase}
               cardId={`${params.id}`}
+              valueInput={decryptText(todo.title)}
             />
           ))}
         </ul>
