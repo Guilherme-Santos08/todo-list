@@ -13,11 +13,14 @@ type props = {
 
 type cardContextProps = {
   showInput: boolean;
+  showSearchModal: boolean;
   showModal: () => void;
 
   cardSearch: string;
   setShowInput: (ags: any) => void;
+
   handleCardSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleShowSearchModal: () => void;
 
   collectionFilter: collectionCardProps[];
   collectionCardFirebase: collectionCardProps[];
@@ -30,6 +33,7 @@ export function AddCardProvider({ children }: props) {
   const { user } = useAuth();
 
   const [showInput, setShowInput] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [cardSearch, setCardSearch] = useState("");
 
   const [collectionCardFirebase, setCollectionCardFirebase] = useLocalStorage(
@@ -43,6 +47,8 @@ export function AddCardProvider({ children }: props) {
   );
 
   const showModal = () => setShowInput(!showInput);
+
+  const handleShowSearchModal = () => setShowSearchModal(!showSearchModal);
 
   const handleCardSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCardSearch(e.target.value);
@@ -62,6 +68,7 @@ export function AddCardProvider({ children }: props) {
   return (
     <AddCardContext.Provider
       value={{
+        showSearchModal,
         showInput,
         showModal,
         cardSearch,
@@ -70,6 +77,7 @@ export function AddCardProvider({ children }: props) {
         setCollectionCardFirebase,
         collectionCardFirebase,
         handleCardSearch,
+        handleShowSearchModal,
       }}
     >
       {children}

@@ -14,8 +14,8 @@ type props = {
 
 export function Header({ search = true }: props) {
   const { user } = useAuth();
-  const { showModal, cardSearch, handleCardSearch } = useAddCard();
-  
+  const { showModal, handleShowSearchModal } = useAddCard();
+
   const [showConfig, setShowConfig] = useState(false);
 
   const handleShowConfig = () => setShowConfig(!showConfig);
@@ -28,18 +28,13 @@ export function Header({ search = true }: props) {
           {search ? (
             <>
               <li>
-                <div className="search-box">
+                <button
+                  className="search-box"
+                  aria-label="Botão para pesquisar por cartões"
+                  onClick={handleShowSearchModal}
+                >
                   <FiSearch />
-                  <input
-                    type="text"
-                    placeholder="Procure pelo seu cartão"
-                    aria-label="Procurar por tarefa"
-                    aria-describedby="Procurar por tarefa"
-                    onChange={handleCardSearch}
-                    value={cardSearch}
-                    required
-                  />
-                </div>
+                </button>
               </li>
               <li>
                 <button

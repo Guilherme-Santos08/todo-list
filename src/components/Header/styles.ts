@@ -80,4 +80,12 @@ export const Container = styled.header`
       }
     }
   }
+
+  @media(max-width: 375px) {
+    nav {
+      span {
+        width: 185px;
+      }
+    }
+  }
 `;

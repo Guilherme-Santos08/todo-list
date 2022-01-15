@@ -8,6 +8,10 @@ export default createGlobalStyle`
     list-style: none;
     text-decoration: none;
   }
+  html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+  }
+
 
   .Toastify__toast--error {
     background: #dd5554;
