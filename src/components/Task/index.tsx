@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 
 import { useDispatch } from "react-redux";
 import {
@@ -77,6 +77,10 @@ export function Task({ title, check, idFirebase, cardId, valueInput }: props) {
     setEdit(false);
   };
 
+  const handleEditTodoEnter = (keyDown: KeyboardEvent<HTMLInputElement>) => {
+    if (keyDown.keyCode === 13) return handleEditTodo();
+  }
+
   return (
     <Container>
       <div className="task">
@@ -121,6 +125,7 @@ export function Task({ title, check, idFirebase, cardId, valueInput }: props) {
                 name="edit"
                 defaultValue={valueInput}
                 onChange={handleChange}
+                onKeyDown={keydown => handleEditTodoEnter(keydown)}
               />
             </div>
             <div className="task__edit--btn">
