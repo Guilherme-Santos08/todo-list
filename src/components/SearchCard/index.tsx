@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAddCard } from "../../hooks/useAddCard";
 import { Container } from "./styles";
 
