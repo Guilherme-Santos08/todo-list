@@ -1,3 +1,4 @@
+import { InputHTMLAttributes, useEffect, useRef } from "react";
 import { useAddCard } from "../../hooks/useAddCard";
 import { Container } from "./styles";
 
@@ -9,6 +10,14 @@ export function SearchCard() {
     handleCardSearch,
   } = useAddCard();
   const showModal = showSearchModal ? "show-modal" : ""
+  const inputRef: any = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [showModal]);
+
   return (
     <Container>
       <div className="input-search">
@@ -20,6 +29,7 @@ export function SearchCard() {
             aria-describedby="Procurar por tarefa"
             onChange={handleCardSearch}
             value={cardSearch}
+            ref={inputRef}
             required
           />
         </div>

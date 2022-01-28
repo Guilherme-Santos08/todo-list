@@ -6,6 +6,7 @@ import { database } from "../lib/firebase";
 import { useAuth } from "../hooks/useAuth";
 import { collectionCardProps } from "../types/types";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useDecrypt } from "../hooks/useCryptography";
 
 type props = {
   children: ReactNode;
@@ -31,6 +32,7 @@ export const AddCardContext = createContext({} as cardContextProps);
 
 export function AddCardProvider({ children }: props) {
   const { user } = useAuth();
+  const { decryptText } = useDecrypt();
 
   const [showInput, setShowInput] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -43,7 +45,7 @@ export function AddCardProvider({ children }: props) {
 
   const collectionFilter = collectionCardFirebase.filter(
     (collection: collectionCardProps) =>
-      collection.cardName.toLowerCase().includes(cardSearch.toLowerCase())
+    decryptText(collection.cardName).toLowerCase().includes(cardSearch.toLowerCase())
   );
 
   const showModal = () => setShowInput(!showInput);
