@@ -13,7 +13,7 @@ export function SearchCard() {
   const inputRef: any = useRef(null);
 
   useEffect(() => {
-    if (inputRef.current) {
+    if (showModal) {
       inputRef.current.focus();
     }
   }, [showModal]);
