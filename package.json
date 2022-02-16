@@ -2,6 +2,8 @@
   "name": "todo-list",
   "version": "0.1.0",
   "private": true,
+  "main": "./.webpack/main/index.js",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -30,6 +32,10 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "release": "electron-forge publish",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -62,14 +68,75 @@
     "@types/history": "^4.7.9",
     "@types/styled-components": "^5.1.15",
     "@types/uuid": "^8.3.1",
+    "@electron-forge/cli": "6.0.0-beta.57",
+    "@electron-forge/maker-deb": "6.0.0-beta.57",
+    "@electron-forge/maker-rpm": "6.0.0-beta.57",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.57",
+    "@electron-forge/maker-zip": "6.0.0-beta.57",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.57",
+    "@types/electron-devtools-installer": "2.2.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "3.3.0",
+    "electron": "^17.0.1",
     "husky": "^7.0.4",
     "react-icons": "^4.3.1"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    },
+    "forge": {
+      "packagerConfig": {
+        "name": "Electron starter",
+        "executableName": "electron-starter",
+        "icon": "assets/icon",
+        "extraResource": [
+          "assets"
+        ]
+      },
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack/main.webpack.js",
+            "renderer": {
+              "config": "./webpack/renderer.webpack.js",
+              "entryPoints": [
+                {
+                  "html": "./public/index.html",
+                  "js": "./src/index.tsx",
+                  "name": "main_window",
+                  "preload": {
+                    "js": "./electron/bridge.ts"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      ],
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Electron Starter"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
     }
   }
 }
