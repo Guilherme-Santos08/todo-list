@@ -30,6 +30,7 @@ export function TaskProvider({ children }: props) {
 
   const [todoList, setTodoList] = useState<TodosProps[]>([]);
   const [collectionIdFirebase, setCollectionIdFirebase] = useState("");
+  console.log(todoList)
 
   const handleCollectionId = (collectionIdFirebase: SetStateAction<string>) =>
     setCollectionIdFirebase(collectionIdFirebase);

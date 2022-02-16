@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
-import { collectionCardProps, TodosProps } from "../../types/types";
+import { TodosProps } from "../../types/types";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
 import { useTask } from "../../hooks/useTask";
@@ -13,25 +13,14 @@ import { AddTask } from "../../components/AddTask";
 import { Task } from "../../components/Task";
 
 import { Container } from "./styles";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 export function Todos() {
-  const { handleCollectionId } = useTask();
+  const { handleCollectionId, todoList } = useTask();
   const { decryptText } = useDecrypt();
 
   const params = useParams();
   const navigate = useNavigate();
   document.title = `${params.cardName}`;
-
-  const [collection] = useLocalStorage("collection", null);
-  const tasks = collection
-    .filter(
-      (collection: collectionCardProps) => collection.idFirebase === params.id
-    )
-    .map((todo: collectionCardProps) => todo.todos)[0];
-
-  const todoList = Object.values<TodosProps>(tasks);
-  console.log(todoList);
 
   useEffect(() => {
     return handleCollectionId(`${params.id}`);
@@ -61,16 +50,18 @@ export function Todos() {
         </div>
 
         <ul>
-          {todoList.map((todo: TodosProps, index: number) => (
-            <Task
-              key={index}
-              title={decryptText(todo.title)}
-              check={todo.completed}
-              idFirebase={todo.idFirebase}
-              cardId={`${params.id}`}
-              valueInput={decryptText(todo.title)}
-            />
-          ))}
+          {todoList
+            ? todoList.map((todo: TodosProps, index: number) => (
+                <Task
+                  key={index}
+                  title={decryptText(todo.title)}
+                  check={todo.completed}
+                  idFirebase={todo.idFirebase}
+                  cardId={`${params.id}`}
+                  valueInput={decryptText(todo.title)}
+                />
+              ))
+            : "Carregando"}
         </ul>
       </Container>
     </>
